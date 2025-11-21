@@ -1,0 +1,40 @@
+name: clova-rag
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  # 기본 패키지
+  - requests>=2.31.0
+  - python-dotenv>=1.0.0
+  
+  # 데이터 처리
+  - pandas>=2.0.0
+  - numpy>=1.24.0
+  
+  # 임베딩 (한국어 NLP)
+  - pytorch::pytorch>=2.0.0
+  - pytorch::pytorch-cuda=11.8
+  
+  # 웹 크롤링
+  - beautifulsoup4>=4.12.0
+  - selenium>=4.15.0
+  
+  # 평가 및 분석
+  - scipy>=1.11.0
+  - scikit-learn>=1.3.0
+  - matplotlib>=3.8.0
+  - seaborn>=0.13.0
+  
+  # 유틸리티
+  - tqdm>=4.66.0
+  - jupyter>=1.0.0
+  
+  # pip 패키지
+  - pip
+  - pip:
+    - chromadb>=0.4.0
+    - langchain>=0.1.0
+    - langchain-community>=0.0.10
+    - sentence-transformers>=2.2.0
+    - transformers>=4.35.0
