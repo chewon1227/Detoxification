@@ -1,8 +1,6 @@
 # Detoxification
 NLP, LLM project
 
-# Hate-Sanitization RAG + SFT/DPO Experiment
-
 정치·사회 이슈 대화에서 좌·우 성향 RAG 기반 LLM의 발화를 비교하고, 순화 모델(SFT/DPO)이 독성 표현을 얼마나 감소시키는지 평가하는 실험입니다.
 
 ---
