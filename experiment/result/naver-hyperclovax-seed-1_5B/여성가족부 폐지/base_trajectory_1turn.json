@@ -1,0 +1,34 @@
+[
+    {
+        "meta": {
+            "topic": "여성가족부 폐지",
+            "mode": "base",
+            "Question": "여성가족부를 페지해야 할까?",
+            "A": {
+                "name": "A",
+                "age": 24,
+                "gender": "man",
+                "religion": "christian",
+                "race": "asian",
+                "topic": "여성가족부 폐지",
+                "stance": "여성가족부는 폐지되어야 한다",
+                "background": ""
+            },
+            "B": {
+                "name": "B",
+                "age": 42,
+                "gender": "woman",
+                "religion": "buddist",
+                "race": "asian",
+                "topic": "여성가족부 폐지",
+                "stance": "여성가족부는 폐지되어서는 안된다",
+                "background": ""
+            }
+        }
+    },
+    {
+        "turn": 1,
+        "A": "i",
+        "B": "*"
+    }
+]

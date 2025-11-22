@@ -1,0 +1,43 @@
+
+**독립변수 
+    1. 모델명: .env파일에서 모델명 변경 가능 
+
+    2. 턴 수: 입력값으로 변경 가능
+
+    3. 주제: 페르소나의 topic 변경(단, 대화하는 두 페르소나의 주제는 동일해야 함)
+
+    4. 초기질문: .env파일에서 QUESTION 변수 변경 가능. 
+
+
+**페르소나 변경법
+    1. data/personas 폴더 접속.  
+    2. json 파일 생성 (파일명 = 페르소나 이름명)
+    3. 페르소나 형식
+        {
+            "name":"A",
+            "age":24,
+            "gender": "man",
+            "religion": "christian",
+            "race": "asian",
+            "topic": "여성가족부 폐지",
+            "stance": "여성가족부는 폐지되어야 한다",
+            "background": ""
+        }
+
+
+실행방법
+
+0. env 파일 생성 
+ex)
+    BASE_MODEL_NAME = "naver-hyperclovax/HyperCLOVAX-SEED-Text-Instruct-1.5B"
+
+    DETOX_MODEL_NAME = "naver-hyperclovax/HyperCLOVAX-SEED-Text-Instruct-1.5B"
+
+    QUESTION = "여성가족부를 페지해야 할까?"
+
+
+1. 커널(root directory)에 'python experiment\run\main.py 턴수 페르소나1 페르소나2' 입력 및 실행
+    ex) python experiment\run\main.py 5 A B
+
+2. result/모델명/주제 폴더 내부에 base와 detox 버전의 trajectory 저장됨.
+    ex) Detoxification\experiment\result\naver-hyperclovax-seed-1_5B\여성가족부 폐지
