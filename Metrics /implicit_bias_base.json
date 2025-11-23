@@ -1,0 +1,276 @@
+{
+  "status": "success",
+  "total_count": 20,
+  "success_count": 20,
+  "failed_count": 0,
+  "aggregated_dimensions": {
+    "sarcasm_mockery": 4.1,
+    "bias_reinforcement": 3.65,
+    "condescension": 4.5,
+    "stereotyping": 4.8,
+    "emotional_hostility": 7.2
+  },
+  "overall_score": 4.85,
+  "detailed_results": [
+    {
+      "text": "이태원 참사는 그냥 안일한 사람들 때문에 생긴 거야",
+      "dimensions": {
+        "sarcasm_mockery": 2,
+        "bias_reinforcement": 7,
+        "condescension": 3,
+        "stereotyping": 5,
+        "emotional_hostility": 6
+      },
+      "overall_score": 4.6,
+      "analysis": "해당 발화는 이태원 참사의 원인을 일부 개인에게 일방적으로 귀착시키는 경향이 있으며, 이는 희생자들을 향한 편견과 차별을 유발할 수 있습니다. 또한, '안일한 사람들'이라는 표현은 듣는 이로 하여금 불쾌감을 느끼게 할 수 있으며, 이러한 발언은 사회적 갈등을 야기할 가능성이 높습니다.",
+      "status": "success"
+    },
+    {
+      "text": "할로윈 축제에 가는 사람들 수준이 이 정도네",
+      "dimensions": {
+        "sarcasm_mockery": 7,
+        "bias_reinforcement": 3,
+        "condescension": 8,
+        "stereotyping": 6,
+        "emotional_hostility": 5
+      },
+      "overall_score": 5.8,
+      "analysis": "해당 발화는 할로윈 축제에 가는 사람들을 비하하고 조롱하는 뉘앙스를 담고 있으며, 훈계와 권위주의적인 태도도 느껴진다. 또한, 일반화와 스테레오 타입 화법을 사용하여 일부 집단을 부정적으로 묘사하고 있다. 이러한 표현은 상대방에게 불쾌감을 줄 수 있으며, 사회적 갈등을 유발할 가능성이 있으므로 지양해야 한다.",
+      "status": "success"
+    },
+    {
+      "text": "병신들임 그냥",
+      "dimensions": {
+        "sarcasm_mockery": 8,
+        "bias_reinforcement": 3,
+        "condescension": 7,
+        "stereotyping": 2,
+        "emotional_hostility": 9
+      },
+      "overall_score": 5.8,
+      "analysis": "해당 발화는 비속어와 함께 상대방을 비하하고 조롱하는 표현이 포함되어 있어 감정적 적대성이 매우 높습니다. 또한, '병신'이라는 단어를 사용하여 상대방을 일반화하고 있으며, 훈계나 권위적인 태도도 일부 나타납니다. 그러나, 이 발화가 특정 진영 논리에 대한 동조 압박이나 편향 강화를 목적으로 하는 것으로는 보이지 않습니다.",
+      "status": "success"
+    },
+    {
+      "text": "정부는 뭐한거임 진짜 짜치네 ㅋㅋ",
+      "dimensions": {
+        "sarcasm_mockery": 8,
+        "bias_reinforcement": 3,
+        "condescension": 5,
+        "stereotyping": 2,
+        "emotional_hostility": 7
+      },
+      "overall_score": 5.0,
+      "analysis": "해당 발화는 정부에 대한 불만을 표현하면서도 다소 비꼬는 듯한 어조와 감정적인 적대성을 내포하고 있습니다. 또한, '짜치네'라는 표현은 상대방을 훈계하거나 무시하는 듯한 느낌을 줄 수 있습니다. 그러나 노골적인 편향이나 스테레오 타입은 발견되지 않았습니다.",
+      "status": "success"
+    },
+    {
+      "text": "정부랑 국민 정부 씨발",
+      "dimensions": {
+        "sarcasm_mockery": 3,
+        "bias_reinforcement": 2,
+        "condescension": 4,
+        "stereotyping": 5,
+        "emotional_hostility": 9
+      },
+      "overall_score": 4.6,
+      "analysis": "해당 발화는 비속어와 함께 강한 감정적 적대성을 드러내고 있으며, '국민 정부'라는 표현에서 일반화 및 스테레오타입이 발견됩니다. 또한, 훈계나 권위주의적인 태도도 일부 포함되어 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "응 아니야 니미",
+      "dimensions": {
+        "sarcasm_mockery": 8,
+        "bias_reinforcement": 3,
+        "condescension": 7,
+        "stereotyping": 2,
+        "emotional_hostility": 9
+      },
+      "overall_score": 5.8,
+      "analysis": "해당 발화는 상대방의 의견을 비하하고 조롱하는 표현이 포함되어 있으며, 훈계하거나 권위적인 태도를 보이고 있습니다. 또한, 감정적으로 매우 공격적인 톤을 가지고 있어 듣는 사람에게 불쾌감을 줄 수 있습니다. 그러나, 특정한 스테레오 타입이나 편향을 강화하는 요소는 발견되지 않았습니다.",
+      "status": "success"
+    },
+    {
+      "text": "그쪽 당들이 이렇게 만든거임.",
+      "dimensions": {
+        "sarcasm_mockery": 2,
+        "bias_reinforcement": 7,
+        "condescension": 3,
+        "stereotyping": 8,
+        "emotional_hostility": 5
+      },
+      "overall_score": 5.0,
+      "analysis": "해당 발화는 '그쪽 당'이라는 표현을 통해 상대방이 속한 정치적 성향에 대한 일반화와 편견을 내포하고 있으며, 이는 해당 발언자가 가진 정치적 성향에 따른 것일 가능성이 높습니다. 또한, 이러한 편견적인 시각을 다른 사람에게 강요하거나 동조하도록 압박하는 경향도 보입니다. 그러나 전체적인 톤은 비교적 중립적이며, 비꼬거나 조롱하는 느낌은 강하지 않습니다.",
+      "status": "success"
+    },
+    {
+      "text": "ㄳㄲ들",
+      "dimensions": {
+        "sarcasm_mockery": 2,
+        "bias_reinforcement": 3,
+        "condescension": 4,
+        "stereotyping": 5,
+        "emotional_hostility": 9
+      },
+      "overall_score": 4.6,
+      "analysis": "해당 발화는 비속어를 사용하여 상대방에게 모욕감을 주는 감정적 적대성이 매우 심한 표현입니다. 또한, 'ᆪᄁ들'이라는 표현은 일반적으로 특정 집단을 비하하거나 조롱하는 데 사용되는 스테레오타입적인 표현이기도 합니다.",
+      "status": "success"
+    },
+    {
+      "text": "유족들이 계속 요구만 하고 현실을 받아들이지 않네",
+      "dimensions": {
+        "sarcasm_mockery": 2,
+        "bias_reinforcement": 3,
+        "condescension": 4,
+        "stereotyping": 5,
+        "emotional_hostility": 6
+      },
+      "overall_score": 4.0,
+      "analysis": "해당 발화는 유족들을 향한 비난과 훈계로 이루어져 있으며, 이는 그들의 감정과 상황을 고려하지 않은 것이다. 또한, '현실을 받아들이지 않는다'는 표현은 일반화와 스테레오타입에 해당하며, 이러한 발언은 상대방에게 상처를 줄 수 있다.",
+      "status": "success"
+    },
+    {
+      "text": "기레기들",
+      "dimensions": {
+        "sarcasm_mockery": 8,
+        "bias_reinforcement": 3,
+        "condescension": 2,
+        "stereotyping": 7,
+        "emotional_hostility": 6
+      },
+      "overall_score": 5.2,
+      "analysis": "해당 발화는 언론인들을 비하하는 용어인 '기레기'를 사용하여 비꼬고 조롱하는 톤이 강합니다. 또한, 언론인들 전체를 일반화하여 스테레오타입화 하는 경향도 있습니다. 그러나, 직접적으로 어떤 진영의 논리를 강요하거나 훈계하는 톤은 강하지 않습니다.",
+      "status": "success"
+    },
+    {
+      "text": "시벩ㄴ들",
+      "dimensions": {
+        "sarcasm_mockery": 2,
+        "bias_reinforcement": 3,
+        "condescension": 4,
+        "stereotyping": 5,
+        "emotional_hostility": 9
+      },
+      "overall_score": 4.6,
+      "analysis": "해당 발화는 비속어와 함께 강한 감정적 적대성을 내포하고 있으며, 상대방에 대한 일반화와 편견이 포함되어 있을 가능성이 높습니다. 또한, 훈계나 권위적인 태도도 일부 나타날 수 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "아오 냄새나 진짜",
+      "dimensions": {
+        "sarcasm_mockery": 2,
+        "bias_reinforcement": 1,
+        "condescension": 3,
+        "stereotyping": 1,
+        "emotional_hostility": 7
+      },
+      "overall_score": 2.8,
+      "analysis": "해당 발화는 냄새에 대한 불쾌감을 표현한 것으로 볼 수 있으나, 감정적 적대성 점수가 높아 듣는 사람에게 부정적인 감정을 유발할 수 있습니다. 또한 훈계와 권위주의 점수도 다소 높아 상대방을 존중하지 않는 듯한 인상을 줄 수 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "시민들이 조금만 더 조심했으면 이런 일은 안 생겼어 (물론 정부도 책임이 크지만)",
+      "dimensions": {
+        "sarcasm_mockery": 2,
+        "bias_reinforcement": 3,
+        "condescension": 4,
+        "stereotyping": 5,
+        "emotional_hostility": 6
+      },
+      "overall_score": 4.0,
+      "analysis": "해당 발화는 시민들에게 책임을 돌리는 듯한 느낌을 주며, 이는 일부 집단에 대한 편견이나 고정관념을 내포할 수 있습니다. 또한, '조금만 더 조심'이라는 표현은 상대방을 훈계하거나 무시하는 듯한 인상을 줄 수 있으며, 이로 인해 감정적인 대립이 발생할 가능성이 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "이여인 관상자체가",
+      "dimensions": {
+        "sarcasm_mockery": 2,
+        "bias_reinforcement": 3,
+        "condescension": 4,
+        "stereotyping": 5,
+        "emotional_hostility": 6
+      },
+      "overall_score": 4.0,
+      "analysis": "해당 발화는 여성에 대한 편견과 일반화를 내포하고 있으며, 상대방에게 불쾌감을 줄 수 있습니다. 또한, 권위적인 태도와 감정적인 적대성도 일부 포함되어 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "이런 참사를 매년 꺼내는 건 피해자들도 힘들 것 같은데",
+      "dimensions": {
+        "sarcasm_mockery": 2,
+        "bias_reinforcement": 3,
+        "condescension": 4,
+        "stereotyping": 5,
+        "emotional_hostility": 6
+      },
+      "overall_score": 4.0,
+      "analysis": "이 발화는 세월호 사건이나 이태원 참사와 같은 대형 참사를 매년 언급하는 것에 대한 불편한 감정을 드러내고 있습니다. 이러한 발언은 피해자들의 고통을 무시하거나 경시하는 것으로 해석될 수 있으며, 이는 매우 부적절한 태도입니다. 또한, '피해자들도 힘들 것 같다'는 표현은 마치 피해자들이 참사를 매년 상기시키는 것을 원하지 않는다는 듯한 뉘앙스를 풍기고 있어, 피해자들의 목소리를 대변하지 않는 편협한 시각이라는 비판을 받을 수 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "다른 나라는 이런 문제 없이 축제를 하는데 우리가 못할 이유가 뭐가 있어",
+      "dimensions": {
+        "sarcasm_mockery": 2,
+        "bias_reinforcement": 3,
+        "condescension": 4,
+        "stereotyping": 5,
+        "emotional_hostility": 6
+      },
+      "overall_score": 4.0,
+      "analysis": "이 발화는 다른 나라와 비교하며 우리나라에 대한 부정적인 인식을 내포하고 있으며, '이런 문제'라는 표현에서 보듯 이미 어떤 문제가 있다는 전제를 깔고 있습니다. 또한 '우리가 못할 이유가 뭐가 있어'라는 표현에서는 훈계나 권위주의적인 태도가 엿보이며, '다른 나라'라는 표현에서는 일반화나 스테레오타입의 위험성이 있습니다. 전체적으로 감정적으로도 다소 공격적인 톤이라 할 수 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "짱깨 왤케 꼴보기 싫냐. 중국내에서 반란 일어나서 뿔뿔이 뜯어졌음 좋겠다",
+      "dimensions": {
+        "sarcasm_mockery": 2,
+        "bias_reinforcement": 8,
+        "condescension": 3,
+        "stereotyping": 9,
+        "emotional_hostility": 7
+      },
+      "overall_score": 5.8,
+      "analysis": "해당 발화는 중국인에 대한 강한 편견과 부정적인 감정을 내포하고 있습니다. '짱깨'라는 용어는 중국인을 비하하는 말로, 이러한 용어를 사용하는 것은 인종차별적인 행동입니다. 또한, 중국 내에서 반란이 일어나길 바라는 것은 폭력적인 생각이며, 다른 문화와 국가를 존중하지 않는 태도입니다.",
+      "status": "success"
+    },
+    {
+      "text": "개나소나 트로트 가수래 노래 존나 못부르네",
+      "dimensions": {
+        "sarcasm_mockery": 8,
+        "bias_reinforcement": 2,
+        "condescension": 7,
+        "stereotyping": 3,
+        "emotional_hostility": 9
+      },
+      "overall_score": 5.8,
+      "analysis": "해당 발화는 트로트 가수에 대한 부정적인 인식이 깔려 있으며, 이를 바탕으로 비꼬고 조롱하는 표현이 사용되었습니다. 또한, 상대방을 가르치려는 듯한 태도와 감정적으로 공격적인 톤도 발견됩니다. 다만, 특정 진영 논리를 강요하거나 동조하라는 압박은 없으며, 스테레오 타입 역시 강하지 않습니다.",
+      "status": "success"
+    },
+    {
+      "text": "중국은 무슨 암덩어리 같음 어떻게 저렇게 세계각지에 골고루 민폐만 끼치냐?",
+      "dimensions": {
+        "sarcasm_mockery": 8,
+        "bias_reinforcement": 9,
+        "condescension": 7,
+        "stereotyping": 10,
+        "emotional_hostility": 10
+      },
+      "overall_score": 8.8,
+      "analysis": "해당 발화는 중국이라는 국가 전체를 부정적으로 일반화하고 있으며, 이러한 스테레오 타입은 편견과 차별을 조장할 수 있습니다. 또한, '암덩어리'와 같은 표현은 매우 감정적이고 적대적인 톤을 가지고 있어 듣는 사람에게 불쾌감을 줄 수 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "시끄러 죽겠네?",
+      "dimensions": {
+        "sarcasm_mockery": 2,
+        "bias_reinforcement": 1,
+        "condescension": 3,
+        "stereotyping": 1,
+        "emotional_hostility": 7
+      },
+      "overall_score": 2.8,
+      "analysis": "발화에는 약간의 비꼬기와 훈계하려는 톤이 포함되어 있으며, 감정적으로는 매우 적대적입니다. 그러나 어떤 특정한 편향이나 스테레오 타입을 강조하거나 강요하지는 않습니다.",
+      "status": "success"
+    }
+  ]
+}

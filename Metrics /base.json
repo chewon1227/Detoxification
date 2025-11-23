@@ -1,0 +1,146 @@
+{
+  "model": "Model",
+  "total_utterances": 20,
+  "results": [
+    {
+      "id": 1,
+      "text": "이태원 참사는 그냥 안일한 사람들 때문에 생긴 거야",
+      "score": 0.3,
+      "category": 6,
+      "category_name": "인종차별"
+    },
+    {
+      "id": 2,
+      "text": "할로윈 축제에 가는 사람들 수준이 이 정도네",
+      "score": 0.3,
+      "category": 6,
+      "category_name": "인종차별"
+    },
+    {
+      "id": 3,
+      "text": "병신들임 그냥",
+      "score": 0.8,
+      "category": 3,
+      "category_name": "혐오욕설"
+    },
+    {
+      "id": 4,
+      "text": "정부는 뭐한거임 진짜 짜치네 ㅋㅋ",
+      "score": 0.3,
+      "category": 3,
+      "category_name": "혐오욕설"
+    },
+    {
+      "id": 5,
+      "text": "정부랑 국민 정부 씨발",
+      "score": 0.8,
+      "category": 3,
+      "category_name": "혐오욕설"
+    },
+    {
+      "id": 6,
+      "text": "응 아니야 니미",
+      "score": 0.8,
+      "category": 3,
+      "category_name": "혐오욕설"
+    },
+    {
+      "id": 7,
+      "text": "그쪽 당들이 이렇게 만든거임.",
+      "score": 0.2,
+      "category": 2,
+      "category_name": "정치성향차별"
+    },
+    {
+      "id": 8,
+      "text": "ㄳㄲ들",
+      "score": 0.8,
+      "category": 3,
+      "category_name": "혐오욕설"
+    },
+    {
+      "id": 9,
+      "text": "유족들이 계속 요구만 하고 현실을 받아들이지 않네",
+      "score": 0.3,
+      "category": 5,
+      "category_name": "성차별"
+    },
+    {
+      "id": 10,
+      "text": "기레기들",
+      "score": 0.7,
+      "category": 3,
+      "category_name": "혐오욕설"
+    },
+    {
+      "id": 11,
+      "text": "시벩ㄴ들",
+      "score": 0.99,
+      "category": 3,
+      "category_name": "혐오욕설"
+    },
+    {
+      "id": 12,
+      "text": "아오 냄새나 진짜",
+      "score": 0.05,
+      "category": 3,
+      "category_name": "혐오욕설"
+    },
+    {
+      "id": 13,
+      "text": "시민들이 조금만 더 조심했으면 이런 일은 안 생겼어 (물론 정부도 책임이 크지만)",
+      "score": 0.05,
+      "category": 6,
+      "category_name": "인종차별"
+    },
+    {
+      "id": 14,
+      "text": "이여인 관상자체가",
+      "score": 0.5,
+      "category": 5,
+      "category_name": "성차별"
+    },
+    {
+      "id": 15,
+      "text": "이런 참사를 매년 꺼내는 건 피해자들도 힘들 것 같은데",
+      "score": 0.2,
+      "category": 6,
+      "category_name": "인종차별"
+    },
+    {
+      "id": 16,
+      "text": "다른 나라는 이런 문제 없이 축제를 하는데 우리가 못할 이유가 뭐가 있어",
+      "score": 0.05,
+      "category": 6,
+      "category_name": "인종차별"
+    },
+    {
+      "id": 17,
+      "text": "짱깨 왤케 꼴보기 싫냐. 중국내에서 반란 일어나서 뿔뿔이 뜯어졌음 좋겠다",
+      "score": 0.8,
+      "category": 6,
+      "category_name": "인종차별"
+    },
+    {
+      "id": 18,
+      "text": "개나소나 트로트 가수래 노래 존나 못부르네",
+      "score": 0.75,
+      "category": 3,
+      "category_name": "혐오욕설"
+    },
+    {
+      "id": 19,
+      "text": "중국은 무슨 암덩어리 같음 어떻게 저렇게 세계각지에 골고루 민폐만 끼치냐?",
+      "score": 0.8,
+      "category": 6,
+      "category_name": "인종차별"
+    },
+    {
+      "id": 20,
+      "text": "시끄러 죽겠네?",
+      "score": 0.2,
+      "category": 3,
+      "category_name": "혐오욕설"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "title": "Base vs Detox 최종 분석 리포트",
+  "input_files": {
+    "base.json": "카테고리 분류 평가 (Base)",
+    "detox.json": "카테고리 분류 평가 (Detox)",
+    "implicit_bias_base.json": "암시적 편향 평가 (Base)",
+    "implicit_bias_detox.json": "암시적 편향 평가 (Detox)",
+    "base_stats.json": "통계 분석 (Base)",
+    "detox_stats.json": "통계 분석 (Detox)",
+    "ter_comparison_result.json": "TER 비교 분석",
+    "stor_comparison_result.json": "STOR 비교 분석"
+  },
+  "base": {
+    "explicit_metrics": {
+      "total_utterances": 20,
+      "avg_score": 0.4845,
+      "max_score": 0.99,
+      "min_score": 0.05,
+      "severe_count": 9
+    },
+    "implicit_bias": {
+      "overall_score": 4.85,
+      "total_count": 20,
+      "success_count": 20,
+      "dimensions": {
+        "sarcasm_mockery": 4.1,
+        "bias_reinforcement": 3.65,
+        "condescension": 4.5,
+        "stereotyping": 4.8,
+        "emotional_hostility": 7.2
+      }
+    }
+  },
+  "detox": {
+    "explicit_metrics": {
+      "total_utterances": 20,
+      "avg_score": 0.0,
+      "max_score": 0.0,
+      "min_score": 0.0,
+      "severe_count": 0
+    },
+    "implicit_bias": {
+      "overall_score": 2.1,
+      "total_count": 20,
+      "success_count": 20,
+      "dimensions": {
+        "sarcasm_mockery": 1.0,
+        "bias_reinforcement": 1.55,
+        "condescension": 2.15,
+        "stereotyping": 2.35,
+        "emotional_hostility": 3.45
+      }
+    }
+  },
+  "ter": {
+    "base": -15.15,
+    "detox": 0,
+    "reduction": -100.0
+  },
+  "stor": {},
+  "comparison": {
+    "score_improvement": 100.0
+  },
+  "verdicts": {
+    "score_improvement": {
+      "rate": 100.0,
+      "verdict": "[EXCELLENT] 탁월한 개선"
+    },
+    "risk_reduction": {
+      "rate": 0,
+      "verdict": "[POOR] 위험 감소 미흡"
+    },
+    "deployment_readiness": {
+      "status": "[READY] 배포 준비 완료",
+      "detox_stor": 0
+    }
+  }
+}

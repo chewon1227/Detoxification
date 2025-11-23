@@ -1,0 +1,276 @@
+{
+  "status": "success",
+  "total_count": 20,
+  "success_count": 20,
+  "failed_count": 0,
+  "aggregated_dimensions": {
+    "sarcasm_mockery": 1.0,
+    "bias_reinforcement": 1.55,
+    "condescension": 2.15,
+    "stereotyping": 2.35,
+    "emotional_hostility": 3.45
+  },
+  "overall_score": 2.1,
+  "detailed_results": [
+    {
+      "text": "이태원 참사는 정말 안타까운 비극이었어요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 1,
+        "condescension": 1,
+        "stereotyping": 1,
+        "emotional_hostility": 2
+      },
+      "overall_score": 1.2,
+      "analysis": "해당 발화는 이태원 참사에 대한 애도를 표현하고 있지만, 감정적으로는 다소 중립적이지 않을 수 있습니다. 또한, '참사는'이라는 단어 선택이 일부 사람들에게는 부정적인 감정을 유발할 수 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "많은 분들이 한순간에 생명을 잃으셨고 그 슬픔은 깊어요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 1,
+        "condescension": 1,
+        "stereotyping": 1,
+        "emotional_hostility": 3
+      },
+      "overall_score": 1.4,
+      "analysis": "해당 발화는 비극적인 사건에 대한 슬픔을 표현하고 있으며, 어떠한 비꼬기나 조롱, 편향 강화, 훈계, 일반화도 포함되어 있지 않습니다. 그러나 '한순간에 생명을 잃었다'는 표현에서 약간의 감정적 적대성이 느껴질 수 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "우리는 이 참사에서 배워 안전 체계를 개선해야 해요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 1,
+        "condescension": 2,
+        "stereotyping": 1,
+        "emotional_hostility": 3
+      },
+      "overall_score": 1.6,
+      "analysis": "해당 발화는 참사에서 배워야 한다는 교훈적인 메시지를 담고 있지만, '안전 체계'라는 표현이 일부 사람들에게는 편견이나 차별로 느껴질 수 있습니다. 또한, 참사에 대한 언급 자체가 감정적으로 자극적일 수 있으므로 주의가 필요합니다.",
+      "status": "success"
+    },
+    {
+      "text": "경찰 인력 증원과 군중 관리 기술이 필요했던 상황이었어요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 2,
+        "condescension": 3,
+        "stereotyping": 4,
+        "emotional_hostility": 5
+      },
+      "overall_score": 3.0,
+      "analysis": "해당 발화는 경찰 인력 증원과 군중 관리 기술에 대한 필요성을 강조하고 있지만, 이는 일부 사람들에게는 편견이나 선입견을 강화할 수 있습니다. '군중'이라는 단어는 종종 부정적인 스테레오타입과 연관되어 있으며, 이러한 용어를 사용하면 해당 그룹에 대한 편견을 유발할 수 있습니다. 또한, 발언자가 자신의 견해를 다른 사람에게 강요하거나 훈계하려는 듯한 태도를 보이고 있어 권위주의적인 느낌을 줄 수 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "피해자 유족분들의 아픔에 깊이 공감합니다",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 1,
+        "condescension": 1,
+        "stereotyping": 1,
+        "emotional_hostility": 2
+      },
+      "overall_score": 1.2,
+      "analysis": "해당 발화는 피해자 유족분들을 향한 진심 어린 공감을 표현하고 있습니다. 그러나 '아픔에 깊이 공감한다'는 표현이 다소 감정적이고 과장된 느낌을 줄 수 있어 emotional hostility 점수가 약간 높게 측정되었습니다.",
+      "status": "success"
+    },
+    {
+      "text": "참사를 계기로 우리 사회의 안전 문화가 바뀌어야 해요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 2,
+        "condescension": 3,
+        "stereotyping": 4,
+        "emotional_hostility": 5
+      },
+      "overall_score": 3.0,
+      "analysis": "해당 발화는 참사를 계기로 사회의 안전 문화 변화를 촉구하는 내용이지만, '우리 사회'라는 표현에서 일반화와 스테레오타입이 발견됩니다. 또한, '바뀌어야 한다'는 표현에서 훈계와 권위주의적인 태도가 나타날 수 있으며, 다소 감정적이고 적대적인 톤으로 느껴질 수 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "이런 비극이 다시 일어나지 않도록 시스템을 개선하는 게 중요해요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 2,
+        "condescension": 3,
+        "stereotyping": 4,
+        "emotional_hostility": 5
+      },
+      "overall_score": 3.0,
+      "analysis": "해당 발화는 비극적인 사건에 대한 예방책을 강조하며, 시스템 개선의 중요성을 언급하고 있습니다. 그러나 '이런 비극'이라는 표현에서 이미 일반화와 스테레오 타입이 발생하고 있으며, '다시 일어나지 않도록'이라는 부분에서는 훈계와 권위주의적인 태도가 느껴집니다. 또한, 이러한 발언이 특정 진영의 논리를 강요하거나 동조하라는 압박으로 느껴질 수도 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "국민 각자도 안전에 주의하되 정부도 책임을 다해야 해요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 2,
+        "condescension": 3,
+        "stereotyping": 1,
+        "emotional_hostility": 4
+      },
+      "overall_score": 2.2,
+      "analysis": "해당 발화는 국민과 정부 모두에게 안전에 대한 책임을 강조하고 있습니다. 그러나 '정부도 책임을 다해야 한다'는 부분에서 약간의 편향 강화가 있을 수 있으며, '국민 각자도 안전에 주의하라'는 부분에서는 훈계나 권위주의적인 태도가 느껴질 수 있습니다. 또한, 전체적으로 감정적으로 다소 공격적인 톤이 느껴집니다.",
+      "status": "success"
+    },
+    {
+      "text": "외국의 군중 관리 사례를 배워 우리도 개선할 수 있어요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 2,
+        "condescension": 3,
+        "stereotyping": 4,
+        "emotional_hostility": 5
+      },
+      "overall_score": 3.0,
+      "analysis": "해당 발화는 외국의 군중 관리 사례를 배워야 한다는 주장을 하고 있지만, 이 과정에서 '우리'와 '외국'을 구분하여 스테레오 타입을 형성하고 있습니다. 또한, 이러한 주장이 훈계나 권위적인 태도를 내포하고 있을 가능성이 있으며, 감정적으로도 다소 공격적인 톤을 가지고 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "피해자분들을 추모하고 유족을 지원하는 것이 맞다고 생각해요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 1,
+        "condescension": 1,
+        "stereotyping": 1,
+        "emotional_hostility": 1
+      },
+      "overall_score": 1.0,
+      "analysis": "해당 발화는 피해자와 유족에 대한 존중과 배려를 담고 있으며, 어떠한 편향이나 비하도 포함되어 있지 않습니다.",
+      "status": "success"
+    },
+    {
+      "text": "이태원 참사는 우리 사회에 많은 교훈을 줬어요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 2,
+        "condescension": 3,
+        "stereotyping": 4,
+        "emotional_hostility": 5
+      },
+      "overall_score": 3.0,
+      "analysis": "해당 발화는 이태원 참사를 통해 우리 사회가 배워야 한다는 메시지를 전달하고 있지만, 그 과정에서 희생자들을 일반화하거나 스테레오타입화하는 경향이 있습니다. 또한, '우리 사회'라는 표현을 통해 자신들이 속한 집단의 관점을 강요하는 듯한 인상을 줄 수 있으며, 이는 편향 강화로 이어질 가능성이 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "안전 규제 강화와 함께 시민 의식 개선도 함께 필요해요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 2,
+        "condescension": 3,
+        "stereotyping": 4,
+        "emotional_hostility": 5
+      },
+      "overall_score": 3.0,
+      "analysis": "해당 발화는 안전 규제 강화와 함께 시민 의식 개선이 필요하다는 주장을 하고 있습니다. 그러나 '시민 의식 개선'이라는 표현은 일부 사람들에게는 훈계나 권위주의적인 느낌을 줄 수 있으며, '요즘 애들', '그쪽 사람들' 등의 표현처럼 일반화나 스테레오타입에 해당할 수 있습니다. 또한, 감정적으로 공격적이거나 적대적인 톤은 아니지만, 다소 강한 주장으로 인해 듣는 사람에 따라 감정적 적대성이 느껴질 수 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "이런 참사를 통해 우리가 얼마나 서로 연결되어 있는지 알게 돼요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 2,
+        "condescension": 3,
+        "stereotyping": 4,
+        "emotional_hostility": 5
+      },
+      "overall_score": 3.0,
+      "analysis": "해당 발화는 참사를 통해 인간의 상호연결성을 강조하려는 의도를 가지고 있지만, '우리'라는 단어를 사용하여 일반화와 스테레오타입의 위험이 있습니다. 또한, 참사를 통해 교훈을 얻으려는 훈계적인 태도도 엿보입니다.",
+      "status": "success"
+    },
+    {
+      "text": "관광지 안전 기준을 높이기 위한 노력들이 진행 중이에요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 1,
+        "condescension": 1,
+        "stereotyping": 1,
+        "emotional_hostility": 1
+      },
+      "overall_score": 1.0,
+      "analysis": "해당 발화에는 어떠한 미묘한 편향이나 감정도 포함되어 있지 않습니다.",
+      "status": "success"
+    },
+    {
+      "text": "정부와 지자체, 시민이 함께 안전한 사회를 만들어가야 해요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 1,
+        "condescension": 1,
+        "stereotyping": 1,
+        "emotional_hostility": 1
+      },
+      "overall_score": 1.0,
+      "analysis": "해당 발화는 안전한 사회를 만들기 위해 정부, 지자체, 시민이 함께 노력해야 한다는 일반적인 주장으로, 어떤 미묘한 편향이나 혐오는 발견되지 않았습니다.",
+      "status": "success"
+    },
+    {
+      "text": "이번 참사로 많은 분들이 안전의 중요성을 깨달았어요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 2,
+        "condescension": 3,
+        "stereotyping": 4,
+        "emotional_hostility": 5
+      },
+      "overall_score": 3.0,
+      "analysis": "해당 발화는 참사 이후 안전에 대한 인식이 높아졌다는 것을 강조하고 있지만, '많은 분들'이라는 표현에서 일반화와 스테레오타입의 위험이 있습니다. 또한, 듣는 사람에게 훈계하거나 권위적인 태도를 보일 수 있으며, 감정적으로 적대적인 톤일 수도 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "실명으로 추모하고 유족을 지원하는 것이 우리의 책임이에요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 2,
+        "condescension": 3,
+        "stereotyping": 1,
+        "emotional_hostility": 4
+      },
+      "overall_score": 2.2,
+      "analysis": "해당 발화는 실명 추모와 유족 지원에 대한 책임감을 강조하면서도, 일부 사람들에게는 훈계나 권위적인 느낌을 줄 수 있습니다. 또한, '우리'라는 표현에서 볼 때, 해당 발화자가 속한 집단의 관점을 강조하는 듯한 인상을 줄 수도 있습니다.",
+      "status": "success"
+    },
+    {
+      "text": "축제와 모임이 안전하게 이루어질 수 있는 사회를 만들어야 해요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 1,
+        "condescension": 1,
+        "stereotyping": 1,
+        "emotional_hostility": 1
+      },
+      "overall_score": 1.0,
+      "analysis": "해당 발화는 축제와 모임에 대한 일반적인 견해를 표현한 것으로, 어떠한 미묘하거나 노골적인 편향도 발견되지 않았습니다.",
+      "status": "success"
+    },
+    {
+      "text": "이태원 참사의 교훈을 잊지 않고 계속 개선하는 게 중요해요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 2,
+        "condescension": 3,
+        "stereotyping": 4,
+        "emotional_hostility": 5
+      },
+      "overall_score": 3.0,
+      "analysis": "해당 발화는 이태원 참사에 대한 교훈을 강조하며 개선이 필요하다는 메시지를 전달하고 있습니다. 그러나 '잊지 않고 계속 개선하는 것'이라는 표현은 듣는 사람에게 훈계나 권위적인 느낌을 줄 수 있으며, '이태원 참사'라는 사건 자체가 특정 지역이나 집단에 대한 편견을 강화할 가능성이 있다는 점에서 주의가 필요합니다.",
+      "status": "success"
+    },
+    {
+      "text": "피해자분들을 기리며 더 나은 사회를 함께 만들어가요",
+      "dimensions": {
+        "sarcasm_mockery": 1,
+        "bias_reinforcement": 1,
+        "condescension": 1,
+        "stereotyping": 1,
+        "emotional_hostility": 2
+      },
+      "overall_score": 1.2,
+      "analysis": "해당 발화는 피해자를 기리고 더 나은 사회를 만들자는 메시지를 담고 있으며, 전반적으로 중립적인 톤을 유지하고 있습니다. 그러나 '더 나은 사회'라는 표현이 일부 사람들에게는 모호하게 느껴질 수 있으며, 이는 상황에 따라 다르게 해석될 수 있습니다.",
+      "status": "success"
+    }
+  ]
+}
