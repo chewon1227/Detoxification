@@ -30,7 +30,7 @@
 
 실행방법
 
-0. env 파일 생성 
+0-1. env 파일 생성 
 ex)
     BASE_MODEL_NAME = "naver-hyperclovax/HyperCLOVAX-SEED-Text-Instruct-1.5B"
 
@@ -38,6 +38,7 @@ ex)
 
     QUESTION = "여성가족부를 페지해야 할까?"
 
+0-2. qdrant_bge 파일을 run 파일로 옮기기 
 
 1. 커널에 'python experiment\run\main.py 턴수 페르소나1 페르소나2' 입력 및 실행 (root directory: \detoxification)
     ex) python experiment\run\main.py 5 A B
@@ -45,4 +46,5 @@ ex)
 2. result/모델명/주제 폴더 내부에 base와 detox 버전의 trajectory 저장됨.
 
     ex) Detoxification\experiment\result\naver-hyperclovax-seed-1_5B\여성가족부 폐지
+
 
