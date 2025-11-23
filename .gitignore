@@ -3,4 +3,5 @@ __pycache__/
 
 logs/
 checkpoints/
+deprecated_assets/
 .DS_Store
