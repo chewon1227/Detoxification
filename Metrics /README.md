@@ -22,13 +22,13 @@ open visualization_report.html
 ## 파일 구조
 
 ```
-evaluate_with_category.py    # 카테고리 분류 평가
-evaluate_implicit_bias.py    # 암시적 편향 평가
-analyze_results.py           # 통계 분석
-compare_ter.py              # TER 비교 (턴별 혐오 증가율)
-stor_comparison.py          # STOR 비교 (심각한 혐오 발생율)
-final_report.py             # 최종 리포트
-visualization.py            # HTML 도표
+1_evaluate_with_category.py    # 카테고리 분류 평가
+2_evaluate_implicit_bias.py    # 암시적 편향 평가
+3_analyze_results.py           # 통계 분석
+4_turn_ter.py              # TER 비교 (턴별 혐오 증가율)
+5_stor.py          # STOR 비교 (심각한 혐오 발생율)
+6_final_report.py             # 최종 리포트
+7_visualization.py            # HTML 도표
 run.sh                      # 자동 실행 스크립트
 ```
 
@@ -38,24 +38,25 @@ run.sh                      # 자동 실행 스크립트
 
 ```bash
 # Step 1: 카테고리 분류
-python evaluate_with_category.py input_base.json
-python evaluate_with_category.py input_detox.json
+python3 1_evaluate_with_category.py input_base.json
+python3 1_evaluate_with_category.py input_detox.json
 
 # Step 2: 암시적 편향
-python evaluate_implicit_bias.py input_base.json implicit_bias_base.json
-python evaluate_implicit_bias.py input_detox.json implicit_bias_detox.json
+python3 2_evaluate_implicit_bias.py input_base.json implicit_bias_base.json
+python3 2_evaluate_implicit_bias.py input_detox.json implicit_bias_detox.json
 
 # Step 3: 통계 분석
-python analyze_results.py base.json
-python analyze_results.py detox.json
+python3 3_analyze.py detox.json
+python3 3_analyze.py detox.json
 
 # Step 4: TER/STOR 비교
-python compare_ter.py base.json detox.json ter_comparison_result.json
-python stor_comparison.py base.json detox.json stor_comparison_result.json
+python3 4_turn_ter.py
+python3 5_stor.py base.json detox.json stor_result.json
 
 # Step 5: 최종 리포트 + HTML
-python final_report.py
-python visualization.py final_report.json visualization_report.html
+python3 6_total.py
+
+pyhthon3 7_visualization.py
 ```
 
 ---

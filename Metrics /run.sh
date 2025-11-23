@@ -14,7 +14,7 @@ python3 3_analyze.py detox.json
 #output : base_stats.json
 #output : detox_stats.json
 
-python3 4_tern_ter.py
+python3 4_turn_ter.py
 # output: ter_comparison_result.json
 
 python3 5_stor.py base.json detox.json stor_result.json
