@@ -130,7 +130,7 @@ NLP, LLM project
 
 ---
 
-## tained 모델
+## trained 모델
 https://drive.google.com/drive/folders/1C9M7dy5sLvsKl2xXbPfE4KcAliJ13-I7
 ---
 
