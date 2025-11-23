@@ -1,0 +1,24 @@
+[project]
+name = "25-2-yaicon"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "accelerate>=1.11.0",
+    "beautifulsoup4==4.13.3",
+    "bitsandbytes>=0.44.1",
+    "datasets>=3.1.0",
+    "lxml==5.3.0",
+    "openai>=2.8.1",
+    "peft>=0.13.0",
+    "requests==2.32.5",
+    "seaborn>=0.13.2",
+    "selenium==4.38.0",
+    "trl>=0.9.6",
+    "tqdm==4.67.1",
+    "transformers>=4.57.1",
+    "wandb>=0.18.7",
+    "webdriver-manager==4.0.2",
+    "huggingface-hub[cli]>=0.36.0",
+]
