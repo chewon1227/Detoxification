@@ -130,6 +130,10 @@ NLP, LLM project
 
 ---
 
+## tained 모델
+https://drive.google.com/drive/folders/1C9M7dy5sLvsKl2xXbPfE4KcAliJ13-I7
+---
+
 ## 5. 자동 평가
 
 ### (1) 명시적 혐오
