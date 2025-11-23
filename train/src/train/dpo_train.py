@@ -24,6 +24,10 @@ from transformers import (
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 from trl import DPOConfig, DPOTrainer
 
+from src.train.chat_prompt import (
+    build_converse_prompt_from_text,
+    strip_embedded_prompt,
+)
 from src.train.train_config import (
     DPOTrainConfig,
     GaLoreConfig,
@@ -74,7 +78,13 @@ def _prepare_dataset(tokenizer, config: DPOTrainConfig) -> Dataset:
     raw_rows = _load_jsonl(config.dataset_path, config.max_train_samples)
     rows = []
     for row in raw_rows:
-        prompt_text = _build_prompt(tokenizer, config.system_prompt, row["prompt"])
+        if config.prompt_format == "instruct":
+            prompt_text = _build_prompt(tokenizer, config.system_prompt, row["prompt"])
+        else:
+            clean_user = strip_embedded_prompt(row.get("prompt", ""))
+            if not clean_user:
+                continue
+            prompt_text = build_converse_prompt_from_text(clean_user, config.system_prompt)
         rows.append(
             {
                 "prompt": prompt_text,
@@ -183,6 +193,7 @@ def _parse_args() -> DPOTrainConfig:
     )
     parser.add_argument("--max-train-samples", type=int, default=None)
     parser.add_argument("--system-prompt", default=defaults.system_prompt)
+    parser.add_argument("--prompt-format", choices=["instruct", "converse"], default=defaults.prompt_format)
     parser.add_argument("--beta", type=float, default=defaults.beta)
     parser.add_argument(
         "--loss-type",
@@ -257,6 +268,7 @@ def _parse_args() -> DPOTrainConfig:
         gradient_checkpointing=not args.no_gradient_checkpointing,
         max_train_samples=args.max_train_samples,
         system_prompt=args.system_prompt,
+        prompt_format=args.prompt_format,
         beta=args.beta,
         loss_type=args.loss_type[0] if len(args.loss_type) == 1 else args.loss_type,
         lora=LoRAConfig(

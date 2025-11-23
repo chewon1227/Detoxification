@@ -26,6 +26,11 @@ from transformers import (
 )
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 
+from src.train.chat_prompt import (
+    build_converse_prompt,
+    default_personas,
+    strip_embedded_prompt,
+)
 from src.train.train_config import (
     GaLoreConfig,
     LoRAConfig,
@@ -72,12 +77,73 @@ def _build_prompt(tokenizer, system_prompt: str, user_text: str) -> str:
     )
 
 
-def _tokenize_row(row: Dict, tokenizer, config: SFTTrainConfig) -> Dict:
-    prompt_text = _build_prompt(tokenizer, config.system_prompt, row["original_text"])
-    answer_text = (row["detox_text"] or "").strip() + tokenizer.eos_token
+def _build_converse_prompt_from_context(
+    context_text: str, init_persona: Dict[str, str], target_persona: Dict[str, str]
+) -> str | None:
+    cleaned = strip_embedded_prompt(context_text or "")
+    if not cleaned:
+        return None
+    context = f"{target_persona['name']}: {cleaned.strip()}"
+    return build_converse_prompt(init_persona, target_persona, context)
 
-    prompt_ids = tokenizer(prompt_text, add_special_tokens=False)["input_ids"]
-    answer_ids = tokenizer(answer_text, add_special_tokens=False)["input_ids"]
+
+def _rows_from_messages(
+    messages: List[Dict], init_persona: Dict[str, str], target_persona: Dict[str, str], eos_token: str
+) -> List[Dict[str, str]]:
+    prepared: List[Dict[str, str]] = []
+    pending_user: str | None = None
+    for message in messages:
+        role = message.get("role")
+        content = message.get("content", "")
+        if role == "user":
+            pending_user = strip_embedded_prompt(content)
+        elif role == "assistant":
+            if not pending_user:
+                continue
+            prompt = _build_converse_prompt_from_context(
+                pending_user, init_persona, target_persona
+            )
+            pending_user = None
+            if not prompt:
+                continue
+            answer = content.strip()
+            if not answer:
+                continue
+            prepared.append(
+                {
+                    "prompt": prompt,
+                    "answer": answer + eos_token,
+                }
+            )
+    return prepared
+
+
+def _build_converse_rows(raw_rows: List[Dict], tokenizer, config: SFTTrainConfig) -> List[Dict[str, str]]:
+    init_persona, target_persona = default_personas(config.system_prompt)
+    prepared: List[Dict[str, str]] = []
+    for row in raw_rows:
+        if "messages" in row:
+            prepared.extend(
+                _rows_from_messages(
+                    row["messages"], init_persona, target_persona, tokenizer.eos_token
+                )
+            )
+        else:
+            prompt = _build_converse_prompt_from_context(
+                row.get("original_text", ""), init_persona, target_persona
+            )
+            answer = (row.get("detox_text") or "").strip()
+            if not prompt or not answer:
+                continue
+            prepared.append({"prompt": prompt, "answer": answer + tokenizer.eos_token})
+    if not prepared:
+        raise SystemExit("No usable rows found for converse-style prompts.")
+    return prepared
+
+
+def _tokenize_prompt_and_answer(row: Dict, tokenizer, config: SFTTrainConfig) -> Dict:
+    prompt_ids = tokenizer(row["prompt"], add_special_tokens=False)["input_ids"]
+    answer_ids = tokenizer(row["answer"], add_special_tokens=False)["input_ids"]
 
     if len(prompt_ids) > config.max_prompt_length:
         prompt_ids = prompt_ids[-config.max_prompt_length :]
@@ -105,9 +171,20 @@ def _tokenize_row(row: Dict, tokenizer, config: SFTTrainConfig) -> Dict:
 
 def _prepare_dataset(tokenizer, config: SFTTrainConfig) -> Dataset:
     raw_rows = _load_jsonl(config.dataset_path, config.max_train_samples)
-    dataset = Dataset.from_list(raw_rows)
+    if config.prompt_format == "instruct":
+        prepared_rows = [
+            {
+                "prompt": _build_prompt(tokenizer, config.system_prompt, row["original_text"]),
+                "answer": ((row.get("detox_text") or "").strip() + tokenizer.eos_token),
+            }
+            for row in raw_rows
+        ]
+    else:
+        prepared_rows = _build_converse_rows(raw_rows, tokenizer, config)
+
+    dataset = Dataset.from_list(prepared_rows)
     return dataset.map(
-        lambda row: _tokenize_row(row, tokenizer, config),
+        lambda row: _tokenize_prompt_and_answer(row, tokenizer, config),
         remove_columns=dataset.column_names,
     )
 
@@ -202,6 +279,7 @@ def _parse_args() -> SFTTrainConfig:
         help="Disable gradient checkpointing.",
     )
     parser.add_argument("--max-train-samples", type=int, default=None)
+    parser.add_argument("--prompt-format", choices=["instruct", "converse"], default=defaults.prompt_format)
     parser.add_argument("--system-prompt", default=defaults.system_prompt)
     parser.add_argument("--lora-r", type=int, default=defaults.lora.r)
     parser.add_argument("--lora-alpha", type=int, default=defaults.lora.alpha)
@@ -269,6 +347,7 @@ def _parse_args() -> SFTTrainConfig:
         precision=args.precision,
         gradient_checkpointing=not args.no_gradient_checkpointing,
         max_train_samples=args.max_train_samples,
+        prompt_format=args.prompt_format,
         system_prompt=args.system_prompt,
         lora=LoRAConfig(
             r=args.lora_r,

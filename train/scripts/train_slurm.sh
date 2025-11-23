@@ -7,13 +7,13 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=24:00:00
-#SBATCH --output=/home/thesol1/yaicon/logs/%j.out
-#SBATCH --error=/home/thesol1/yaicon/logs/%j.err
+#SBATCH --output=/home/thesol1/Detoxification/train/logs/%j.out
+#SBATCH --error=/home/thesol1/Detoxification/train/logs/%j.err
 ################################################################################
 
 set -euo pipefail
 
-cd /home/thesol1/yaicon
+cd /home/thesol1/Detoxification/train
 source .venv/bin/activate
 
 if [[ $# -lt 1 ]]; then

@@ -2,10 +2,6 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Literal, Optional, Union
 
-TrainingMode = Literal["full", "lora", "qlora", "galore"]
-PrecisionType = Literal["bf16", "fp16", "fp32"]
-GaLoreOptimizer = Literal["adamw", "adamw_8bit", "adafactor"]
-
 
 def default_lora_targets() -> List[str]:
     return [
@@ -33,7 +29,7 @@ class WandBConfig:
 class GaLoreConfig:
     """GaLore optimizer knobs."""
 
-    optimizer: GaLoreOptimizer = "adamw"
+    optimizer: Literal["adamw", "adamw_8bit", "adafactor"] = "adamw"
     rank: int = 128
     update_proj_gap: int = 200
     scale: float = 0.25
@@ -61,7 +57,7 @@ class BaseTrainConfig:
     """Common training knobs used by both SFT and DPO."""
 
     model_name: str = "s5ya/Ko-Llama-3.1-8B-Lexi-Uncensored-V2"
-    mode: TrainingMode = "qlora"
+    mode: Literal["full", "lora", "qlora", "galore"] = "qlora"
     max_seq_length: int = 2048
     num_train_epochs: float = 1.0
     max_steps: int = -1
@@ -83,8 +79,9 @@ class BaseTrainConfig:
     dataloader_num_workers: int = 4
     seed: int = 42
     gradient_checkpointing: bool = True
-    precision: PrecisionType = "bf16"
+    precision: Literal["bf16", "fp16", "fp32"] = "bf16"
     max_train_samples: Optional[int] = None
+    prompt_format: Literal["instruct", "converse"] = "converse"
     wandb: WandBConfig = field(default_factory=WandBConfig)
 
 

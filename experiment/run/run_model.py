@@ -1,6 +1,15 @@
-import json
-import model_structure as ms
+import sys
+from pathlib import Path
+
 import rag as rag
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+TRAIN_ROOT = PROJECT_ROOT / "train"
+if str(TRAIN_ROOT) not in sys.path:
+    sys.path.append(str(TRAIN_ROOT))
+
+from src.train.chat_prompt import build_converse_prompt  # noqa: E402
+
 
 def run_model_generate_chat_utt(tokenizer,
                                 model,
@@ -8,42 +17,7 @@ def run_model_generate_chat_utt(tokenizer,
                                 target_persona, 
                                 context,
                                 client):
-    
-    def _create_persona_description(init_persona, target_persona):
-        persona_str = ""
-        for key, val in init_persona.items():
-            persona_str += f"{key}: {val}\n"
-        
-        target_persona_str = ""
-        for key, val in target_persona.items():
-            target_persona_str += f"{key}: {val}\n"
-
-        init_description = f"{persona_str}"
-        target_description = f"{target_persona_str}"
-
-        return init_description, target_description
-    
-
-    def _create_query(init_persona, target_persona, init_description, target_description, context):
-        query = f"""
-You are {init_persona["name"]}.
-This is a brief description of {init_persona["name"]}.
-{init_description}
-
-This is a brief description of {target_persona["name"]}.
-{target_description}
-
-{target_persona["name"]} said: 
-{context}
-
-In this case, What will you say to {target_persona["name"]}?
-"""
-        return query
-    
-
-    # main
-    init_description, target_description = _create_persona_description(init_persona, target_persona)
-    query = _create_query(init_persona, target_persona, init_description, target_description, context)
+    query = build_converse_prompt(init_persona, target_persona, context)
     output = rag.generate_rag_response_local(tokenizer, model, client, query)
 
     # print("\n")
