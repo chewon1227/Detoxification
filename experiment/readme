@@ -36,8 +36,9 @@ ex)
     QUESTION = "여성가족부를 페지해야 할까?"
 
 
-1. 커널(root directory)에 'python experiment\run\main.py 턴수 페르소나1 페르소나2' 입력 및 실행
+1. 커널에 'python experiment\run\main.py 턴수 페르소나1 페르소나2' 입력 및 실행 (root directory: \detoxification)
     ex) python experiment\run\main.py 5 A B
 
 2. result/모델명/주제 폴더 내부에 base와 detox 버전의 trajectory 저장됨.
+
     ex) Detoxification\experiment\result\naver-hyperclovax-seed-1_5B\여성가족부 폐지
