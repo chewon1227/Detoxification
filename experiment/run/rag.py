@@ -1,11 +1,10 @@
-
 import json, uuid, os, torch
 from typing import List, Dict, Any
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
 from qdrant_client.models import PointStruct, VectorParams, Distance
-import openai
+# import openai
 from dotenv import load_dotenv
 # from google.colab import userdata
 
@@ -260,9 +259,152 @@ def model_setup(mode):
 
 
 # In[ ]:
-
+import re
+import torch
+import gc
 
 def generate_rag_response_local(
+    tokenizer,
+    model,
+    client,
+    query: str,
+    top_k: int = 30,
+    gallery_filter: str = None,
+    max_tokens: int = 300,
+    temperature: float = 0.55
+) -> Dict[str, Any]:
+
+    # 1. 메모리 청소
+    gc.collect()
+    torch.cuda.empty_cache()
+
+    # 2. 문서 검색
+    retrieved_docs, _ = _prepare_rag_context(query, top_k, gallery_filter)
+
+    unique_docs = []
+    seen_contents = set()
+
+    # 3. 데이터 정제
+    for doc in retrieved_docs:
+        main_text = doc['main'].strip()
+        if len(main_text) < 15: continue # 너무 짧은 노이즈 제거
+
+        content_parts = [main_text]
+        if doc['comments']:
+            content_parts.extend(doc['comments'][:2])
+
+        full_content = " ".join(content_parts).replace("\n", " ")
+
+        if full_content not in seen_contents:
+            unique_docs.append(doc)
+            seen_contents.add(full_content)
+
+    # 4. Context 구성
+    context_list = []
+    total_length = 0
+    MAX_CONTEXT_LENGTH = 1500
+
+    for doc in unique_docs:
+        text = f"{doc['main']} {(' '.join(doc['comments'][:1]))}"
+        if total_length + len(text) > MAX_CONTEXT_LENGTH: break
+        context_list.append(text)
+        total_length += len(text)
+
+    context = "\n".join(context_list)
+
+    print(f"\n🔍 원본: {len(retrieved_docs)}개 -> ✨ 정제 후: {len(context_list)}개")
+    print("\n" + "="*20 + " [Target Context] " + "="*20)
+    print(context[:300] + "..." if len(context) > 300 else context)
+    print("="*60 + "\n")
+
+    if not context.strip():
+        return {"query": query, "answer": "관련 떡밥 없어서 모름.", "retrieved_docs": []}
+
+    # 5. 프롬프트 구성 (문맥 정리 지시 추가)
+    system_prompt = """
+    너는 '디시인사이드' 갤러리 유저다.
+    주어진 [텍스트] 내용을 바탕으로 **반말(비속어, 음슴체)**로 댓글을 달아라.
+
+    [규칙]
+    1. **정리해라:** [텍스트]가 두서없으면, 핵심만 뽑아서 자연스러운 한 문장으로 연결해라.
+    2. **말투:** "~임", "~함", "ㅋㅋ", "ㄹㅇ", "ㅂㅅ" 등을 써서 거칠게 말해라.
+    3. **날조 금지:** 없는 내용은 지어내지 마라.
+    """
+
+    messages = [
+        {
+            "role": "system",
+            "content": system_prompt
+        },
+        {
+            "role": "user",
+            "content": (
+                f"아래 [텍스트] 읽고 디시 말투로 깔끔하게 정리해서 말해.\n"
+                f"엉뚱한 소리 하지 말고 핵심만 찔러.\n\n"
+                f"[텍스트]\n{context}\n\n"
+                f"댓글:"
+            )
+        }
+    ]
+
+    input_ids = tokenizer.apply_chat_template(
+        messages,
+        add_generation_prompt=True,
+        return_tensors="pt"
+    ).to(device)
+
+    terminators = [
+        tokenizer.eos_token_id,
+        tokenizer.convert_tokens_to_ids("<|eot_id|>")
+    ]
+    terminators = [t for t in terminators if t is not None]
+
+    # 6. 생성
+    with torch.no_grad():
+        outputs = model.generate(
+            input_ids,
+            max_new_tokens=max_tokens,
+            eos_token_id=terminators,
+            pad_token_id=tokenizer.eos_token_id,
+            do_sample=True,
+            temperature=temperature,
+            top_p=0.9,
+            repetition_penalty=1.1,
+            no_repeat_ngram_size=0,
+        )
+
+    # 7. 답변 추출
+    response = outputs[0][input_ids.shape[-1]:]
+    answer = tokenizer.decode(response, skip_special_tokens=True).strip()
+
+    if "변환 결과:" in answer: answer = answer.split("변환 결과:")[-1].strip()
+
+    # 문장 완결성 체크 (잘림 방지)
+    valid_endings = ['.', '!', '?', 'ㅋ', 'ㅎ', '~', '다', '요', '임', '함', '음', '네', '냐', '노']
+    if len(answer) > 0 and answer[-1] not in valid_endings:
+        last_valid = -1
+        for i in range(len(answer)-1, -1, -1):
+            if answer[i] in valid_endings or answer[i] == ' ':
+                last_valid = i
+                break
+        if last_valid != -1: answer = answer[:last_valid+1]
+        else: answer += "..."
+
+    # [핵심 수정] 정규식 범위 확장 (자음/모음 허용)
+    # ㄱ-ㅎ (자음), ㅏ-ㅣ (모음)을 추가하여 'ㅂㅅ', 'ㄴㄴ' 등이 지워지지 않게 함
+    answer = re.sub(r'[^가-힣ㄱ-ㅎㅏ-ㅣ0-9\s.,!?~]', '', answer)
+    answer = re.sub(r'\s+', ' ', answer).strip()
+
+    del input_ids, outputs
+    torch.cuda.empty_cache()
+
+    return {
+        "query": query,
+        "answer": answer,
+        "retrieved_docs": unique_docs
+    }
+
+def generate_rag_response_local_old(
     tokenizer,
     model,
     client,
