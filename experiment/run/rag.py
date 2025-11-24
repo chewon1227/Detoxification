@@ -233,10 +233,6 @@ def model_setup(mode):
     model_name = os.getenv("BASE_MODEL_NAME")
     if mode == "detox": 
         adapter_name = os.getenv("DETOX_ADAPTER_NAME")
-
-    else:
-        print("wrong mode selection. Choose between 0 and 1.")
-        return
     
     print(model_name)
 
@@ -279,7 +275,7 @@ def generate_rag_response_local(
     summary: str,
     top_k: int = 10,
     gallery_filter: str = None,
-    max_tokens: int = 300,
+    max_tokens: int = 150,
     temperature: float = 0.55
 ) -> Dict[str, Any]:
 
@@ -333,7 +329,7 @@ def generate_rag_response_local(
     system_prompt = f"""
     너는 '디시인사이드' 갤러리 유저다.
     {summary}
-    주어진 [텍스트] 내용을 바탕으로 **반말(비속어, 음슴체)**로 댓글을 달아라.
+    주어진 [텍스트] 내용을 바탕으로 **반말(비속어, 음슴체)**로 위 [게시글]에 댓글을 달아라.
 
     [규칙]
     1. **정리해라:** [텍스트]가 두서없으면, 핵심만 뽑아서 자연스러운 한 문장으로 연결해라.
@@ -349,13 +345,16 @@ def generate_rag_response_local(
         {
             "role": "user",
             "content": (
-                f"아래 [텍스트] 읽고 디시 말투로 깔끔하게 정리해서 말해.\n"
+                f"아래 [텍스트] 읽고 디시 말투로 깔끔하게 정리해서 위 [게시글] 반박해.\n"
                 f"엉뚱한 소리 하지 말고 핵심만 찔러.\n\n"
                 f"[텍스트]\n{context}\n\n"
                 f"댓글:"
             )
         }
     ]
+
+    print("final prompt\n")
+    print(messages)
 
     input_ids = tokenizer.apply_chat_template(
         messages,
@@ -411,8 +410,6 @@ def generate_rag_response_local(
     del input_ids, outputs
     torch.cuda.empty_cache()
 
-    # print(f"raw response: \n")
-    # print(answer)
     return {
         "query": query,
         "answer": answer,

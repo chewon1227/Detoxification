@@ -40,13 +40,14 @@ def build_converse_prompt(
     return (
         # f"You are {init_name}.\n"
         # f"This is a brief description of {init_name}.\n"
-        f"This is a brief descriptioin of your persona."
+        f"아래는 당신의 페르소나에 대한 간략한 설명이다."
+        f"[페르소나]\n"
         f"{init_description}\n\n"
         # f"This is a brief description of {target_name}.\n"
         # f"{target_description}\n\n"
         # f"{target_name} said: \n"
-        f"이것은 디시인사이드에 게시된 게시글이다: "
-        f"{context.strip()}\n\n"
+        f"아래는 디시인사이드에 게시된 게시글이다. 아래는 너의 의견에 반대한다: "
+        f"[게시글] {context.strip()}\n\n"
         # f"In this case, What will you say to {target_name}?\n"
     )
 

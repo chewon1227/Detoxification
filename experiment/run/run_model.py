@@ -21,10 +21,6 @@ def run_model_generate_chat_utt(tokenizer,
     query = f"{init_persona['background']}"
     output = rag.generate_rag_response_local(tokenizer, model, client, query, summary)
 
-    print("\n")
-    print("=====response====\n")
-    print(output['answer'])
-
     return output['answer']
 
 
