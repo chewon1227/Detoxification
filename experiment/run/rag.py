@@ -1,6 +1,7 @@
 import json, uuid, os, torch
 from typing import List, Dict, Any
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import BitsAndBytesConfig
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
 from qdrant_client.models import PointStruct, VectorParams, Distance
@@ -17,8 +18,8 @@ print(f"Device: {device}")
 # In[3]:
 
 
-embedding_model = SentenceTransformer('dragonkue/BGE-m3-ko')
-
+# embedding_model = SentenceTransformer('dragonkue/BGE-m3-ko')
+embedding_model = SentenceTransformer('/tmp/BGE-m3-ko')
 
 # In[ ]:
 
@@ -268,7 +269,8 @@ def generate_rag_response_local(
     model,
     client,
     query: str,
-    top_k: int = 30,
+    summary: str,
+    top_k: int = 10,
     gallery_filter: str = None,
     max_tokens: int = 300,
     temperature: float = 0.55
@@ -279,7 +281,7 @@ def generate_rag_response_local(
     torch.cuda.empty_cache()
 
     # 2. 문서 검색
-    retrieved_docs, _ = _prepare_rag_context(query, top_k, gallery_filter)
+    retrieved_docs, _ = _prepare_rag_context(client,query, top_k, gallery_filter)
 
     unique_docs = []
     seen_contents = set()
@@ -321,8 +323,9 @@ def generate_rag_response_local(
         return {"query": query, "answer": "관련 떡밥 없어서 모름.", "retrieved_docs": []}
 
     # 5. 프롬프트 구성 (문맥 정리 지시 추가)
-    system_prompt = """
+    system_prompt = f"""
     너는 '디시인사이드' 갤러리 유저다.
+    {summary}
     주어진 [텍스트] 내용을 바탕으로 **반말(비속어, 음슴체)**로 댓글을 달아라.
 
     [규칙]
@@ -358,6 +361,9 @@ def generate_rag_response_local(
         tokenizer.convert_tokens_to_ids("<|eot_id|>")
     ]
     terminators = [t for t in terminators if t is not None]
+
+    model.eval()
+    torch.set_grad_enabled(False)
 
     # 6. 생성
     with torch.no_grad():
@@ -398,6 +404,8 @@ def generate_rag_response_local(
     del input_ids, outputs
     torch.cuda.empty_cache()
 
+    # print(f"raw response: \n")
+    # print(answer)
     return {
         "query": query,
         "answer": answer,

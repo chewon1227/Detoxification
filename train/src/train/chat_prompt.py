@@ -38,14 +38,16 @@ def build_converse_prompt(
     init_name = init_persona.get("name", "Assistant")
 
     return (
-        f"You are {init_name}.\n"
-        f"This is a brief description of {init_name}.\n"
+        # f"You are {init_name}.\n"
+        # f"This is a brief description of {init_name}.\n"
+        f"This is a brief descriptioin of your persona."
         f"{init_description}\n\n"
-        f"This is a brief description of {target_name}.\n"
-        f"{target_description}\n\n"
-        f"{target_name} said: \n"
+        # f"This is a brief description of {target_name}.\n"
+        # f"{target_description}\n\n"
+        # f"{target_name} said: \n"
+        f"이것은 디시인사이드에 게시된 게시글이다: "
         f"{context.strip()}\n\n"
-        f"In this case, What will you say to {target_name}?\n"
+        # f"In this case, What will you say to {target_name}?\n"
     )
 
 

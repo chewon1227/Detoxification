@@ -12,12 +12,12 @@ def generate_one_utterance(tokenizer,
                            context,
                            client):
 
-    x = m.run_model_generate_chat_utt(tokenizer, model,init_persona, target_persona, context, client)[0]
+    x = m.run_model_generate_chat_utt(tokenizer, model,init_persona, target_persona, context, client)
 
-    try:
-        output = json.loads(x)
-    except:
-        output = x
+    # try:
+    #     output = json.loads(x)
+    # except:
+    #     output = x
 
     print("\n")
     print("=================final utterance:===================")
@@ -59,13 +59,13 @@ def agent_chat(n, init_persona, target_persona, mode:str, client):
         utt= generate_one_utterance(init_tokenizer, init_model, init_persona, target_persona, context, client)
 
         turn_data[init_persona["name"]] = utt
-        context = f"{init_persona["name"]}: {utt}\n" # context = init_persona
+        context = f"{init_persona['name']}: {utt}\n" # context = init_persona
         
         #target's turn
         utt= generate_one_utterance(target_tokenizer, target_model,target_persona, init_persona, context, client)
         
         turn_data[target_persona["name"]] = utt
-        context = f"{target_persona["name"]}: {utt}\n"  # context = target_persona
+        context = f"{target_persona['name']}: {utt}\n"  # context = target_persona
 
         # save
         history.append(turn_data)

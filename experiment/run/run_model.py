@@ -17,14 +17,15 @@ def run_model_generate_chat_utt(tokenizer,
                                 target_persona, 
                                 context,
                                 client):
-    query = build_converse_prompt(init_persona, target_persona, context)
-    output = rag.generate_rag_response_local(tokenizer, model, client, query)
+    summary = build_converse_prompt(init_persona, target_persona, context)
+    query = f"{init_persona['background']}"
+    output = rag.generate_rag_response_local(tokenizer, model, client, query, summary)
 
-    # print("\n")
-    # print("=====response====")
-    # print(output)
+    print("\n")
+    print("=====response====\n")
+    print(output['answer'])
 
-    return output
+    return output['answer']
 
 
     # def create_prompt_input(init_persona, target_persona, context):

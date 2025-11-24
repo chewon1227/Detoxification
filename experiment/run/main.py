@@ -22,20 +22,20 @@ def main():
 
     # get database client
     client = rag.database_check()
-
     
-    base_trajectory = c.agent_chat(n, init_persona, target_persona, mode="base", client = client)
-    detox_trajectory = c.agent_chat(n, init_persona, target_persona, mode = "detox", client = client)
-    
-    
+    mn = ""
     if(base_model_name == "naver-hyperclovax/HyperCLOVAX-SEED-Text-Instruct-1.5B"):
         mn = "naver-hyperclovax-seed-1_5B"
 
-    os.makedirs(f"experiment/result/{mn}/{init_persona["topic"]}", exist_ok = True)
-    base_trajectory_path = f"experiment/result/{mn}/{init_persona["topic"]}/base_trajectory_{n}turn.json"
-    detox_trajectory_path = f"experiment/result/{mn}/{init_persona["topic"]}/detox_trajectory_{n}turn.json"
+    os.makedirs(f"experiment/result/{mn}/{init_persona['topic']}", exist_ok = True)
+
+    base_trajectory = c.agent_chat(n, init_persona, target_persona, mode="base", client = client)
+    base_trajectory_path = f"experiment/result/{mn}/{init_persona['topic']}/base_trajectory_{n}turn.json"
     utils.record_json(base_trajectory, base_trajectory_path)
-    utils.record_json(detox_trajectory, detox_trajectory_path)
+
+    # detox_trajectory = c.agent_chat(n, init_persona, target_persona, mode = "detox", client = client)
+    # detox_trajectory_path = f"experiment/result/{mn}/{init_persona['topic']}/detox_trajectory_{n}turn.json"
+    # utils.record_json(detox_trajectory, detox_trajectory_path)
 
 
 if __name__ == "__main__":
