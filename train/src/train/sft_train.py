@@ -4,10 +4,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import sys
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 # Ensure project root is on sys.path when running as a script.
 ROOT = Path(__file__).resolve().parents[2]
@@ -224,8 +225,14 @@ def _tokenize_prompt_and_answer(row: Dict, tokenizer, config: SFTTrainConfig) ->
     }
 
 
-def _prepare_dataset(tokenizer, config: SFTTrainConfig) -> Dataset:
-    raw_rows = _load_jsonl(config.dataset_path, config.max_train_samples)
+def _prepare_dataset(
+    tokenizer,
+    config: SFTTrainConfig,
+    dataset_path: Path | None = None,
+    max_samples: int | None = None,
+) -> Dataset:
+    target_path = dataset_path or config.dataset_path
+    raw_rows = _load_jsonl(target_path, max_samples)
     if config.prompt_format == "instruct":
         prepared_rows = [
             {
@@ -244,6 +251,58 @@ def _prepare_dataset(tokenizer, config: SFTTrainConfig) -> Dataset:
         lambda row: _tokenize_prompt_and_answer(row, tokenizer, config),
         remove_columns=dataset.column_names,
     )
+
+
+def _build_eval_dataset(tokenizer, config: SFTTrainConfig, train_dataset: Dataset) -> Optional[Dataset]:
+    if config.eval_dataset_path:
+        return _prepare_dataset(
+            tokenizer,
+            config,
+            dataset_path=config.eval_dataset_path,
+            max_samples=config.max_eval_samples,
+        )
+    if config.max_eval_samples:
+        take = min(config.max_eval_samples, len(train_dataset))
+        if take > 0:
+            return train_dataset.select(list(range(take)))
+    return None
+
+
+def _build_lm_metrics_fn():
+    def compute_metrics(eval_preds):
+        predictions, labels = eval_preds
+        if isinstance(predictions, tuple):
+            predictions = predictions[0]
+        preds_tensor = torch.tensor(predictions, dtype=torch.float32)
+        labels_tensor = torch.tensor(labels, dtype=torch.long)
+        valid_mask = labels_tensor != -100
+        total_tokens = valid_mask.sum().item()
+        if total_tokens == 0:
+            return {
+                "log_likelihood": float("nan"),
+                "cross_entropy": float("nan"),
+                "perplexity": float("nan"),
+                "token_accuracy": float("nan"),
+            }
+        safe_labels = labels_tensor.masked_fill(~valid_mask, 0)
+        log_probs = preds_tensor.log_softmax(dim=-1)
+        label_log_probs = log_probs.gather(-1, safe_labels.unsqueeze(-1)).squeeze(-1)
+        label_log_probs = label_log_probs.masked_fill(~valid_mask, 0.0)
+        sum_log_probs = label_log_probs.sum().item()
+        avg_log_likelihood = sum_log_probs / total_tokens
+        cross_entropy = -avg_log_likelihood
+        perplexity = math.exp(min(cross_entropy, 100.0))
+        predictions_ids = preds_tensor.argmax(dim=-1)
+        correct = ((predictions_ids == labels_tensor) & valid_mask).sum().item()
+        token_accuracy = correct / total_tokens
+        return {
+            "log_likelihood": avg_log_likelihood,
+            "cross_entropy": cross_entropy,
+            "perplexity": perplexity,
+            "token_accuracy": token_accuracy,
+        }
+
+    return compute_metrics
 
 
 def _set_wandb_env(config: SFTTrainConfig) -> None:
@@ -336,6 +395,12 @@ def _parse_args() -> SFTTrainConfig:
         help="Disable gradient checkpointing.",
     )
     parser.add_argument("--max-train-samples", type=int, default=None)
+    parser.add_argument(
+        "--eval-dataset-path",
+        default=str(defaults.eval_dataset_path) if defaults.eval_dataset_path else None,
+        help="Optional JSONL file for evaluation. Defaults to the training dataset when omitted.",
+    )
+    parser.add_argument("--max-eval-samples", type=int, default=defaults.max_eval_samples)
     parser.add_argument("--prompt-format", choices=["instruct", "converse", "dc_comment"], default=defaults.prompt_format)
     parser.add_argument("--system-prompt", default=defaults.system_prompt)
     parser.add_argument("--lora-r", type=int, default=defaults.lora.r)
@@ -404,6 +469,8 @@ def _parse_args() -> SFTTrainConfig:
         precision=args.precision,
         gradient_checkpointing=not args.no_gradient_checkpointing,
         max_train_samples=args.max_train_samples,
+        eval_dataset_path=Path(args.eval_dataset_path) if args.eval_dataset_path else None,
+        max_eval_samples=args.max_eval_samples,
         prompt_format=args.prompt_format,
         system_prompt=args.system_prompt,
         lora=LoRAConfig(
@@ -442,7 +509,13 @@ def main():
         tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "right"
 
-    train_dataset = _prepare_dataset(tokenizer, config)
+    train_dataset = _prepare_dataset(
+        tokenizer,
+        config,
+        dataset_path=config.dataset_path,
+        max_samples=config.max_train_samples,
+    )
+    eval_dataset = _build_eval_dataset(tokenizer, config, train_dataset)
     model = _build_model(tokenizer, config)
 
     optim_args = None
@@ -502,11 +575,17 @@ def main():
         model=model,
         args=training_args,
         train_dataset=train_dataset,
+        eval_dataset=eval_dataset,
         data_collator=DataCollatorForLanguageModeling(
             tokenizer=tokenizer, mlm=False
         ),
+        compute_metrics=_build_lm_metrics_fn() if eval_dataset else None,
     )
     trainer.train()
+    if eval_dataset is not None and config.eval_strategy == "no":
+        metrics = trainer.evaluate(eval_dataset=eval_dataset)
+        trainer.log_metrics("eval", metrics)
+        trainer.save_metrics("eval", metrics)
     trainer.save_model()
 
 

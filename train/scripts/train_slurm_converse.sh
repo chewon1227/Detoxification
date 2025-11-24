@@ -1,7 +1,7 @@
 #!/bin/bash
 ################################## Slurm 옵션 ##################################
 #SBATCH --job-name=yaicon-train
-#SBATCH --partition=gigabyte_RTX6000ADA
+#SBATCH --partition=TYAN_A6000
 #SBATCH --qos=big_qos
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
@@ -27,14 +27,16 @@ shift
 if [[ "${TASK}" == "dpo" ]]; then
   python src/train/dpo_train.py \
     --prompt-format dc_comment \
-    --output-dir '/scratch2/thesol1/detox-model/converse-dpo-model-dc_comment' \
+    --output-dir '/scratch2/thesol1/detox-model/dc_comment-dpo-model' \
+    --use-wandb \
     "$@"
 elif [[ "${TASK}" == "sft" ]]; then
   python src/train/sft_train.py \
     --prompt-format dc_comment \
-    --output-dir '/scratch2/thesol1/detox-model/converse-sft-model-dc_comment' \
+    --output-dir '/scratch2/thesol1/detox-model/dc_comment-sft-model' \
+    --use-wandb \
     "$@"
 else
-  echo "Unknown TASK '${TASK}', expected 'sft' or 'dpo'." > &2
+  #echo "Unknown TASK '${TASK}', expected 'sft' or 'dpo'." > &2
   exit 1
 fi

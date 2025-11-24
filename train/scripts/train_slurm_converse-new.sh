@@ -26,14 +26,14 @@ shift
 
 if [[ "${TASK}" == "dpo" ]]; then
   python src/train/dpo_train.py \
-    --prompt-format instruct \
-    --output-dir '/scratch2/thesol1/detox-model/dpo-model-dc_comment' \
+    --prompt-format converse \
+    --output-dir '/scratch2/thesol1/detox-model/converse-dpo-model' \
     --use-wandb \
     "$@"
 elif [[ "${TASK}" == "sft" ]]; then
   python src/train/sft_train.py \
-    --prompt-format instruct \
-    --output-dir '/scratch2/thesol1/detox-model/sft-model-dc_comment' \
+    --prompt-format converse \
+    --output-dir '/scratch2/thesol1/detox-model/converse-sft-model' \
     --use-wandb \
     "$@"
 else

@@ -62,7 +62,7 @@ class BaseTrainConfig:
     max_seq_length: int = 2048
     num_train_epochs: float = 1.0
     max_steps: int = -1
-    learning_rate: float = 1e-4
+    learning_rate: float = 5e-6
     per_device_train_batch_size: int = 1
     gradient_accumulation_steps: int = 8
     warmup_ratio: float = 0.03
@@ -97,6 +97,8 @@ class SFTTrainConfig(BaseTrainConfig):
     lora: LoRAConfig = field(default_factory=LoRAConfig)
     galore: GaLoreConfig = field(default_factory=GaLoreConfig)
     output_dir: str = field(default='/scratch2/thesol1/detox-model/sft-model')
+    eval_dataset_path: Optional[Path] = None
+    max_eval_samples: Optional[int] = None
 
 
 @dataclass
