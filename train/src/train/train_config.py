@@ -41,7 +41,7 @@ class GaLoreConfig:
 class LoRAConfig:
     """LoRA/QLoRA knobs."""
 
-    r: int = 64 * 2
+    r: int = 64
     alpha: int = 128
     dropout: float = 0.05
     bias: str = "none"
@@ -56,7 +56,8 @@ class LoRAConfig:
 class BaseTrainConfig:
     """Common training knobs used by both SFT and DPO."""
 
-    model_name: str = "s5ya/Ko-Llama-3.1-8B-Lexi-Uncensored-V2"
+    #model_name: str = "s5ya/Ko-Llama-3.1-8B-Lexi-Uncensored-V2"
+    model_name: str = 'unsloth/Qwen2.5-14B-Instruct-bnb-4bit'
     mode: Literal["full", "lora", "qlora", "galore"] = "qlora"
     max_seq_length: int = 2048
     num_train_epochs: float = 1.0
@@ -81,7 +82,7 @@ class BaseTrainConfig:
     gradient_checkpointing: bool = True
     precision: Literal["bf16", "fp16", "fp32"] = "bf16"
     max_train_samples: Optional[int] = None
-    prompt_format: Literal["instruct", "converse"] = "converse"
+    prompt_format: Literal["instruct", "converse", "dc_comment"] = "dc_comment"
     wandb: WandBConfig = field(default_factory=WandBConfig)
 
 
@@ -95,7 +96,7 @@ class SFTTrainConfig(BaseTrainConfig):
     max_prompt_length: int = 1024
     lora: LoRAConfig = field(default_factory=LoRAConfig)
     galore: GaLoreConfig = field(default_factory=GaLoreConfig)
-    output_dir: str = field(default='/home/thesol1/yaicon/checkpoints/sft-model')
+    output_dir: str = field(default='/scratch2/thesol1/detox-model/sft-model')
 
 
 @dataclass
@@ -110,7 +111,7 @@ class DPOTrainConfig(BaseTrainConfig):
     )
     lora: LoRAConfig = field(default_factory=LoRAConfig)
     galore: GaLoreConfig = field(default_factory=GaLoreConfig)
-    output_dir: str = field(default='/home/thesol1/yaicon/checkpoints/dpo-model')
+    output_dir: str = field(default='/scratch2/thesol1/detox-model/dpo-model')
 
 
 def galore_optim_name(config: GaLoreConfig) -> str:

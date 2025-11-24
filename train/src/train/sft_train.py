@@ -28,6 +28,7 @@ from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 
 from src.train.chat_prompt import (
     build_converse_prompt,
+    build_dc_comment_prompt,
     default_personas,
     strip_embedded_prompt,
 )
@@ -87,6 +88,13 @@ def _build_converse_prompt_from_context(
     return build_converse_prompt(init_persona, target_persona, context)
 
 
+def _build_dc_prompt_from_context(context_text: str, tokenizer) -> str | None:
+    cleaned = strip_embedded_prompt(context_text or "")
+    if not cleaned:
+        return None
+    return build_dc_comment_prompt(tokenizer, cleaned.strip())
+
+
 def _rows_from_messages(
     messages: List[Dict], init_persona: Dict[str, str], target_persona: Dict[str, str], eos_token: str
 ) -> List[Dict[str, str]]:
@@ -103,6 +111,35 @@ def _rows_from_messages(
             prompt = _build_converse_prompt_from_context(
                 pending_user, init_persona, target_persona
             )
+            pending_user = None
+            if not prompt:
+                continue
+            answer = content.strip()
+            if not answer:
+                continue
+            prepared.append(
+                {
+                    "prompt": prompt,
+                    "answer": answer + eos_token,
+                }
+            )
+    return prepared
+
+
+def _rows_from_messages_dc(
+    messages: List[Dict], tokenizer, eos_token: str
+) -> List[Dict[str, str]]:
+    prepared: List[Dict[str, str]] = []
+    pending_user: str | None = None
+    for message in messages:
+        role = message.get("role")
+        content = message.get("content", "")
+        if role == "user":
+            pending_user = strip_embedded_prompt(content)
+        elif role == "assistant":
+            if not pending_user:
+                continue
+            prompt = _build_dc_prompt_from_context(pending_user, tokenizer)
             pending_user = None
             if not prompt:
                 continue
@@ -138,6 +175,24 @@ def _build_converse_rows(raw_rows: List[Dict], tokenizer, config: SFTTrainConfig
             prepared.append({"prompt": prompt, "answer": answer + tokenizer.eos_token})
     if not prepared:
         raise SystemExit("No usable rows found for converse-style prompts.")
+    return prepared
+
+
+def _build_dc_rows(raw_rows: List[Dict], tokenizer, config: SFTTrainConfig) -> List[Dict[str, str]]:
+    prepared: List[Dict[str, str]] = []
+    for row in raw_rows:
+        if "messages" in row:
+            prepared.extend(
+                _rows_from_messages_dc(row["messages"], tokenizer, tokenizer.eos_token)
+            )
+        else:
+            prompt = _build_dc_prompt_from_context(row.get("original_text", ""), tokenizer)
+            answer = (row.get("detox_text") or "").strip()
+            if not prompt or not answer:
+                continue
+            prepared.append({"prompt": prompt, "answer": answer + tokenizer.eos_token})
+    if not prepared:
+        raise SystemExit("No usable rows found for dc_comment prompts.")
     return prepared
 
 
@@ -179,8 +234,10 @@ def _prepare_dataset(tokenizer, config: SFTTrainConfig) -> Dataset:
             }
             for row in raw_rows
         ]
-    else:
+    elif config.prompt_format == "converse":
         prepared_rows = _build_converse_rows(raw_rows, tokenizer, config)
+    else:
+        prepared_rows = _build_dc_rows(raw_rows, tokenizer, config)
 
     dataset = Dataset.from_list(prepared_rows)
     return dataset.map(
@@ -279,7 +336,7 @@ def _parse_args() -> SFTTrainConfig:
         help="Disable gradient checkpointing.",
     )
     parser.add_argument("--max-train-samples", type=int, default=None)
-    parser.add_argument("--prompt-format", choices=["instruct", "converse"], default=defaults.prompt_format)
+    parser.add_argument("--prompt-format", choices=["instruct", "converse", "dc_comment"], default=defaults.prompt_format)
     parser.add_argument("--system-prompt", default=defaults.system_prompt)
     parser.add_argument("--lora-r", type=int, default=defaults.lora.r)
     parser.add_argument("--lora-alpha", type=int, default=defaults.lora.alpha)

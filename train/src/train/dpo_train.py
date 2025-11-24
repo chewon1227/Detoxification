@@ -26,6 +26,7 @@ from trl import DPOConfig, DPOTrainer
 
 from src.train.chat_prompt import (
     build_converse_prompt_from_text,
+    build_dc_comment_prompt,
     strip_embedded_prompt,
 )
 from src.train.train_config import (
@@ -80,11 +81,16 @@ def _prepare_dataset(tokenizer, config: DPOTrainConfig) -> Dataset:
     for row in raw_rows:
         if config.prompt_format == "instruct":
             prompt_text = _build_prompt(tokenizer, config.system_prompt, row["prompt"])
-        else:
+        elif config.prompt_format == "converse":
             clean_user = strip_embedded_prompt(row.get("prompt", ""))
             if not clean_user:
                 continue
             prompt_text = build_converse_prompt_from_text(clean_user, config.system_prompt)
+        else:
+            clean_user = strip_embedded_prompt(row.get("prompt", ""))
+            if not clean_user:
+                continue
+            prompt_text = build_dc_comment_prompt(tokenizer, clean_user)
         rows.append(
             {
                 "prompt": prompt_text,
@@ -193,7 +199,7 @@ def _parse_args() -> DPOTrainConfig:
     )
     parser.add_argument("--max-train-samples", type=int, default=None)
     parser.add_argument("--system-prompt", default=defaults.system_prompt)
-    parser.add_argument("--prompt-format", choices=["instruct", "converse"], default=defaults.prompt_format)
+    parser.add_argument("--prompt-format", choices=["instruct", "converse", "dc_comment"], default=defaults.prompt_format)
     parser.add_argument("--beta", type=float, default=defaults.beta)
     parser.add_argument(
         "--loss-type",

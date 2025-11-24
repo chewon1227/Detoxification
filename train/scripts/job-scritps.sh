@@ -7,12 +7,12 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=72:00:00
-#SBATCH --output=/home/thesol1/yaicon/logs/%j.out
-#SBATCH --error=/home/thesol1/yaicon/logs/%j.err
+#SBATCH --output=/home/thesol1/Detoxification/train/builder-logs/%j.out
+#SBATCH --error=/home/thesol1/Detoxification/train/builder-logs/%j.err
 ################################################################################
 
 
-cd /home/thesol1/yaicon
+cd /home/thesol1/Detoxification/train
 source .venv/bin/activate
 python sft_dataset_builder.py \
   --provider hyperclova-local \

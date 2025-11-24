@@ -26,15 +26,15 @@ shift
 
 if [[ "${TASK}" == "dpo" ]]; then
   python src/train/dpo_train.py \
-    --prompt-format instruct \
-    --output-dir '/scratch2/thesol1/detox-model/dpo-model-dc_comment' \
+    --prompt-format dc_comment \
+    --output-dir '/scratch2/thesol1/detox-model/converse-dpo-model-dc_comment' \
     "$@"
 elif [[ "${TASK}" == "sft" ]]; then
   python src/train/sft_train.py \
-    --prompt-format instruct \
-    --output-dir '/scratch2/thesol1/detox-model/sft-model-dc_comment' \
+    --prompt-format dc_comment \
+    --output-dir '/scratch2/thesol1/detox-model/converse-sft-model-dc_comment' \
     "$@"
 else
-  echo "Unknown TASK '${TASK}', expected 'sft' or 'dpo'." >&2
+  echo "Unknown TASK '${TASK}', expected 'sft' or 'dpo'." > &2
   exit 1
 fi

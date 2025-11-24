@@ -3,16 +3,39 @@
 from __future__ import annotations
 
 import re
-from typing import Dict, Tuple
+from typing import Dict, List, Tuple
 
 _PROMPT_PATTERN = re.compile(
     r"원문:\s*(?P<body>.*?)(?:\n메타정보:|\n출력:|$)", re.DOTALL
 )
 
+DC_SYSTEM_PROMPT = (
+    "너는 '디시인사이드' 갤러리 유저다. "
+    "주어진 [텍스트] 내용을 바탕으로 반말(비속어, 음슴체)로 댓글을 남겨라. "
+    "두서없는 내용이면 핵심만 추려서 한 문장으로 정리하고, '~임', '~함', 'ㅋㅋ', "
+    "'ㄹㅇ', 'ㅂㅅ' 같은 표현을 섞어 거칠게 이야기하라. 없는 내용은 지어내지 않는다."
+)
+
 
 def _format_persona(persona: Dict[str, str]) -> str:
-    """Serialize persona key/value pairs into the format used in converse.py."""
-    return "\n".join(f"{key}: {value}" for key, value in persona.items())
+    """Serialize persona key/value pairs with Korean labels."""
+    label_map = {
+        "name": "이름",
+        "age": "나이",
+        "gender": "성별",
+        "religion": "종교",
+        "race": "인종",
+        "topic": "주제",
+        "stance": "입장",
+        "background": "배경",
+    }
+    lines = []
+    for key, value in persona.items():
+        if value in (None, ""):
+            continue
+        label = label_map.get(key, key)
+        lines.append(f"{label}: {value}")
+    return "\n".join(lines)
 
 
 def default_personas(system_prompt: str) -> Tuple[Dict[str, str], Dict[str, str]]:
@@ -31,21 +54,21 @@ def default_personas(system_prompt: str) -> Tuple[Dict[str, str], Dict[str, str]
 def build_converse_prompt(
     init_persona: Dict[str, str], target_persona: Dict[str, str], context: str
 ) -> str:
-    """Replicate the chat prompt format used inside converse.py."""
+    """Replicate the chat prompt format using Korean instructions."""
     init_description = _format_persona(init_persona)
     target_description = _format_persona(target_persona)
     target_name = target_persona.get("name", "User")
     init_name = init_persona.get("name", "Assistant")
 
     return (
-        f"You are {init_name}.\n"
-        f"This is a brief description of {init_name}.\n"
+        f"당신은 {init_name}입니다.\n"
+        f"다음은 {init_name}에 대한 간단한 정보입니다.\n"
         f"{init_description}\n\n"
-        f"This is a brief description of {target_name}.\n"
+        f"다음은 {target_name}에 대한 간단한 정보입니다.\n"
         f"{target_description}\n\n"
-        f"{target_name} said: \n"
+        f"{target_name}의 발화:\n"
         f"{context.strip()}\n\n"
-        f"In this case, What will you say to {target_name}?\n"
+        f"위 상황을 바탕으로 {target_name}에게 예의 바르고 설득력 있게 한국어로 대답하세요.\n"
     )
 
 
@@ -54,6 +77,30 @@ def build_converse_prompt_from_text(user_text: str, system_prompt: str) -> str:
     init_persona, target_persona = default_personas(system_prompt)
     context = f"{target_persona['name']}: {user_text.strip()}"
     return build_converse_prompt(init_persona, target_persona, context)
+
+
+def _build_dc_messages(context_text: str) -> List[Dict[str, str]]:
+    clean_context = context_text.strip()
+    user_prompt = (
+        "아래 [텍스트]를 읽고 디시 말투로 핵심만 찔러서 말해라.\n"
+        "엉뚱한 소리 하지 말고 한 문장으로 정리해.\n\n"
+        f"[텍스트]\n{clean_context}\n\n"
+        "댓글:"
+    )
+    return [
+        {"role": "system", "content": DC_SYSTEM_PROMPT},
+        {"role": "user", "content": user_prompt},
+    ]
+
+
+def build_dc_comment_prompt(tokenizer, context_text: str) -> str:
+    """Build the DC-style comment prompt used by the RAG inference script."""
+    messages = _build_dc_messages(context_text)
+    return tokenizer.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True,
+    )
 
 
 def strip_embedded_prompt(text: str) -> str:
