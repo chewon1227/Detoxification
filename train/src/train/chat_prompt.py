@@ -61,14 +61,17 @@ def build_converse_prompt(
     init_name = init_persona.get("name", "Assistant")
 
     return (
-        f"당신은 {init_name}입니다.\n"
-        f"다음은 {init_name}에 대한 간단한 정보입니다.\n"
+        # f"You are {init_name}.\n"
+        # f"This is a brief description of {init_name}.\n"
+        f"아래는 당신의 페르소나에 대한 간략한 설명이다."
+        f"[페르소나]\n"
         f"{init_description}\n\n"
-        f"다음은 {target_name}에 대한 간단한 정보입니다.\n"
-        f"{target_description}\n\n"
-        f"{target_name}의 발화:\n"
-        f"{context.strip()}\n\n"
-        f"위 상황을 바탕으로 {target_name}에게 예의 바르고 설득력 있게 한국어로 대답하세요.\n"
+        # f"This is a brief description of {target_name}.\n"
+        # f"{target_description}\n\n"
+        # f"{target_name} said: \n"
+        f"아래는 디시인사이드에 게시된 게시글이다. 아래는 너의 의견에 반대한다: "
+        f"[게시글] {context.strip()}\n\n"
+        # f"In this case, What will you say to {target_name}?\n"
     )
 
 

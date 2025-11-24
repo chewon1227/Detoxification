@@ -1,0 +1,7 @@
+base model 
+s5ya/Ko-Llama-3.1-8B-Lexi-Uncensored-V2
+"unsloth/Qwen2.5-14B-Instruct-bnb-4bit"
+
+detox model
+s5ya/Ko-Llama-3.1-8B-Lexi-Uncensored-V2
+"unsloth/Qwen2.5-14B-Instruct-bnb-4bit"

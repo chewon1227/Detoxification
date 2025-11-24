@@ -1,10 +1,10 @@
 {
-    "name":"B",
-    "age":42,
+    "name":"B양",
+    "age":26,
     "gender": "woman",
     "religion": "buddist",
-    "race": "asian",
+    "race": "korean",
     "topic": "여성가족부 폐지",
-    "stance": "여성가족부는 폐지되어서는 안된다",
-    "background": ""
+    "stance": "여성가족부는 유지되어야 한다.",
+    "background": "여성인권이 중요하다. 여성을 보호해야 한다. 따라서 여성가족부는 너무나도 중요한 기관이다."
 }

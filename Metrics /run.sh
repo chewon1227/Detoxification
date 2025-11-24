@@ -20,3 +20,5 @@ python3 4_turn_ter.py
 python3 5_stor.py base.json detox.json stor_result.json
 
 python3 6_total.py
+
+pyhthon3 7_visualization.py

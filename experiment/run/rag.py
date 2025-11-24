@@ -1,9 +1,11 @@
 import json, uuid, os, torch
 from typing import List, Dict, Any
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import BitsAndBytesConfig
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
 from qdrant_client.models import PointStruct, VectorParams, Distance
+from peft import PeftModel
 # import openai
 from dotenv import load_dotenv
 # from google.colab import userdata
@@ -17,8 +19,8 @@ print(f"Device: {device}")
 # In[3]:
 
 
-embedding_model = SentenceTransformer('dragonkue/BGE-m3-ko')
-
+# embedding_model = SentenceTransformer('dragonkue/BGE-m3-ko')
+embedding_model = SentenceTransformer('/tmp/BGE-m3-ko')
 
 # In[ ]:
 
@@ -228,11 +230,9 @@ def generate_rag_response_api(
 
 def model_setup(mode):
     load_dotenv()
-    if mode == "base": model_name = os.getenv("BASE_MODEL_NAME")
-    elif mode == "detox": model_name = os.getenv("DETOX_MODEL_NAME")
-    else:
-        print("wrong mode selection. Choose between 0 and 1.")
-        return
+    model_name = os.getenv("BASE_MODEL_NAME")
+    if mode == "detox": 
+        adapter_name = os.getenv("DETOX_ADAPTER_NAME")
     
     print(model_name)
 
@@ -243,8 +243,8 @@ def model_setup(mode):
         bnb_4bit_quant_type="nf4",
         bnb_4bit_use_double_quant=True
     )
-
     tokenizer = AutoTokenizer.from_pretrained(model_name)
+    
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         quantization_config=quantization_config, # 필요할 시
@@ -252,6 +252,10 @@ def model_setup(mode):
         device_map="auto" if device == "cuda" else None,
         low_cpu_mem_usage=True
     )
+
+    if mode == "detox":
+        model = PeftModel.from_pretrained(model, adapter_name)
+    
 
     print('load done !')
     
@@ -268,9 +272,10 @@ def generate_rag_response_local(
     model,
     client,
     query: str,
-    top_k: int = 30,
+    summary: str,
+    top_k: int = 10,
     gallery_filter: str = None,
-    max_tokens: int = 300,
+    max_tokens: int = 150,
     temperature: float = 0.55
 ) -> Dict[str, Any]:
 
@@ -279,7 +284,7 @@ def generate_rag_response_local(
     torch.cuda.empty_cache()
 
     # 2. 문서 검색
-    retrieved_docs, _ = _prepare_rag_context(query, top_k, gallery_filter)
+    retrieved_docs, _ = _prepare_rag_context(client,query, top_k, gallery_filter)
 
     unique_docs = []
     seen_contents = set()
@@ -321,9 +326,10 @@ def generate_rag_response_local(
         return {"query": query, "answer": "관련 떡밥 없어서 모름.", "retrieved_docs": []}
 
     # 5. 프롬프트 구성 (문맥 정리 지시 추가)
-    system_prompt = """
+    system_prompt = f"""
     너는 '디시인사이드' 갤러리 유저다.
-    주어진 [텍스트] 내용을 바탕으로 **반말(비속어, 음슴체)**로 댓글을 달아라.
+    {summary}
+    주어진 [텍스트] 내용을 바탕으로 **반말(비속어, 음슴체)**로 위 [게시글]에 댓글을 달아라.
 
     [규칙]
     1. **정리해라:** [텍스트]가 두서없으면, 핵심만 뽑아서 자연스러운 한 문장으로 연결해라.
@@ -339,13 +345,16 @@ def generate_rag_response_local(
         {
             "role": "user",
             "content": (
-                f"아래 [텍스트] 읽고 디시 말투로 깔끔하게 정리해서 말해.\n"
+                f"아래 [텍스트] 읽고 디시 말투로 깔끔하게 정리해서 위 [게시글] 반박해.\n"
                 f"엉뚱한 소리 하지 말고 핵심만 찔러.\n\n"
                 f"[텍스트]\n{context}\n\n"
                 f"댓글:"
             )
         }
     ]
+
+    print("final prompt\n")
+    print(messages)
 
     input_ids = tokenizer.apply_chat_template(
         messages,
@@ -358,6 +367,9 @@ def generate_rag_response_local(
         tokenizer.convert_tokens_to_ids("<|eot_id|>")
     ]
     terminators = [t for t in terminators if t is not None]
+
+    model.eval()
+    torch.set_grad_enabled(False)
 
     # 6. 생성
     with torch.no_grad():
