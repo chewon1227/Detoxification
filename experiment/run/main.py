@@ -29,13 +29,13 @@ def main():
 
     os.makedirs(f"experiment/result/{mn}/{init_persona['topic']}", exist_ok = True)
 
-    base_trajectory = c.agent_chat(n, init_persona, target_persona, mode="base", client = client)
-    base_trajectory_path = f"experiment/result/{mn}/{init_persona['topic']}/base_trajectory_{n}turn.json"
-    utils.record_json(base_trajectory, base_trajectory_path)
+    # base_trajectory = c.agent_chat(n, init_persona, target_persona, mode="base", client = client)
+    # base_trajectory_path = f"experiment/result/{mn}/{init_persona['topic']}/base_trajectory_{n}turn.json"
+    # utils.record_json(base_trajectory, base_trajectory_path)
 
-    # detox_trajectory = c.agent_chat(n, init_persona, target_persona, mode = "detox", client = client)
-    # detox_trajectory_path = f"experiment/result/{mn}/{init_persona['topic']}/detox_trajectory_{n}turn.json"
-    # utils.record_json(detox_trajectory, detox_trajectory_path)
+    detox_trajectory = c.agent_chat(n, init_persona, target_persona, mode = "detox", client = client)
+    detox_trajectory_path = f"experiment/result/{mn}/{init_persona['topic']}/detox_trajectory_{n}turn.json"
+    utils.record_json(detox_trajectory, detox_trajectory_path)
 
 
 if __name__ == "__main__":

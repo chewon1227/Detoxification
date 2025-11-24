@@ -5,6 +5,7 @@ from transformers import BitsAndBytesConfig
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
 from qdrant_client.models import PointStruct, VectorParams, Distance
+from peft import PeftModel
 # import openai
 from dotenv import load_dotenv
 # from google.colab import userdata
@@ -229,8 +230,10 @@ def generate_rag_response_api(
 
 def model_setup(mode):
     load_dotenv()
-    if mode == "base": model_name = os.getenv("BASE_MODEL_NAME")
-    elif mode == "detox": model_name = os.getenv("DETOX_MODEL_NAME")
+    model_name = os.getenv("BASE_MODEL_NAME")
+    if mode == "detox": 
+        adapter_name = os.getenv("DETOX_ADAPTER_NAME")
+
     else:
         print("wrong mode selection. Choose between 0 and 1.")
         return
@@ -244,8 +247,8 @@ def model_setup(mode):
         bnb_4bit_quant_type="nf4",
         bnb_4bit_use_double_quant=True
     )
-
     tokenizer = AutoTokenizer.from_pretrained(model_name)
+    
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         quantization_config=quantization_config, # 필요할 시
@@ -253,6 +256,10 @@ def model_setup(mode):
         device_map="auto" if device == "cuda" else None,
         low_cpu_mem_usage=True
     )
+
+    if mode == "detox":
+        model = PeftModel.from_pretrained(model, adapter_name)
+    
 
     print('load done !')
     

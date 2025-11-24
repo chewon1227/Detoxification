@@ -34,7 +34,9 @@ def agent_chat(n, init_persona, target_persona, mode:str, client):
 
     # load base model
     init_tokenizer, init_model = rag.model_setup(mode)
-    target_tokenizer, target_model = rag.model_setup(mode)
+    # target_tokenizer, target_model = rag.model_setup(mode)
+    target_tokenizer = init_tokenizer
+    target_model = init_model
 
     # data preparation
     history = []
