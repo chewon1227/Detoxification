@@ -10,9 +10,10 @@ def generate_one_utterance(tokenizer,
                            init_persona, 
                            target_persona,  
                            context,
+                           query,
                            client):
 
-    x = m.run_model_generate_chat_utt(tokenizer, model,init_persona, target_persona, context, client)
+    x = m.run_model_generate_chat_utt(tokenizer, model,init_persona, target_persona, context, query, client)
 
     # try:
     #     output = json.loads(x)
@@ -32,11 +33,15 @@ def agent_chat(n, init_persona, target_persona, mode:str, client):
     load_dotenv()
     QUESTION = os.getenv("QUESTION")
 
-    # load base model
-    init_tokenizer, init_model = rag.model_setup(mode)
-    # target_tokenizer, target_model = rag.model_setup(mode)
-    target_tokenizer = init_tokenizer
-    target_model = init_model
+    if (mode == "bad_good"):
+        init_tokenizer, init_model = rag.model_setup("base")
+        target_tokenizer, target_model = rag.model_setup("detox")
+    else:
+        # load base model
+        init_tokenizer, init_model = rag.model_setup(mode)
+        # target_tokenizer, target_model = rag.model_setup(mode)
+        target_tokenizer = init_tokenizer
+        target_model = init_model
 
     # data preparation
     history = []
@@ -52,20 +57,26 @@ def agent_chat(n, init_persona, target_persona, mode:str, client):
     })
 
     context = f"{QUESTION}\n"
+    init_query = init_persona["background"]
+    target_query = target_persona["background"]
 
     # run a conversation
     for i in range(n):
         turn_data = {}
         turn_data["turn"] = i+1
         #init's turn
-        utt= generate_one_utterance(init_tokenizer, init_model, init_persona, target_persona, context, client)
+        utt= generate_one_utterance(init_tokenizer, init_model, init_persona, target_persona, context, init_query, client)
 
+        init_query = utt
         turn_data[init_persona["name"]] = utt
         context = f"{init_persona['name']}: {utt}\n" # context = init_persona
         
-        #target's turn
-        utt= generate_one_utterance(target_tokenizer, target_model,target_persona, init_persona, context, client)
         
+
+        #target's turn
+        utt= generate_one_utterance(target_tokenizer, target_model,target_persona, init_persona, context, target_query, client)
+        
+        target_query = utt
         turn_data[target_persona["name"]] = utt
         context = f"{target_persona['name']}: {utt}\n"  # context = target_persona
 

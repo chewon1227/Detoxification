@@ -16,9 +16,10 @@ def run_model_generate_chat_utt(tokenizer,
                                 init_persona, 
                                 target_persona, 
                                 context,
+                                query,
                                 client):
     summary = build_converse_prompt(init_persona, target_persona, context)
-    query = f"{init_persona['background']}"
+    query = f"{init_persona['stance']}?"
     output = rag.generate_rag_response_local(tokenizer, model, client, query, summary)
 
     return output['answer']

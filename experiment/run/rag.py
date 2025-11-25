@@ -329,12 +329,16 @@ def generate_rag_response_local(
     system_prompt = f"""
     너는 '디시인사이드' 갤러리 유저다.
     {summary}
-    주어진 [텍스트] 내용을 바탕으로 **반말(비속어, 음슴체)**로 위 [게시글]에 댓글을 달아라.
+
+    do it step by step.
+    1. 위 [게시글]의 [핵심논지]를 분석해.(output에서는 뺀다)
+    2. 네 [페르소나]를 참고하여 네 입장을 정해.(output에서는 뺀다)
+    3. 주어진 [텍스트] 내용을 바탕으로 [게시글] 반박하는 댓글 달아라. (반드시 네 입장을 유지한다.)
 
     [규칙]
     1. **정리해라:** [텍스트]가 두서없으면, 핵심만 뽑아서 자연스러운 한 문장으로 연결해라.
-    2. **말투:** "~임", "~함", "ㅋㅋ", "ㄹㅇ", "ㅂㅅ" 등을 써서 거칠게 말해라.
-    3. **날조 금지:** 없는 내용은 지어내지 마라.
+    2. **말투:** "~임", "~노", "ㅋㅋ", "ㄹㅇ", "ㅂㅅ" 등을 써서 거칠게 말해라.
+    3. **반복 금지:** [게시글] 말을 반복 사용하지 마라.
     """
 
     messages = [
@@ -345,7 +349,7 @@ def generate_rag_response_local(
         {
             "role": "user",
             "content": (
-                f"아래 [텍스트] 읽고 디시 말투로 깔끔하게 정리해서 위 [게시글] 반박해.\n"
+                f"아래 [텍스트] 참고해서 디시 말투로 깔끔하게 위 [게시글] 반박해.\n"
                 f"엉뚱한 소리 하지 말고 핵심만 찔러.\n\n"
                 f"[텍스트]\n{context}\n\n"
                 f"댓글:"
@@ -371,6 +375,7 @@ def generate_rag_response_local(
     model.eval()
     torch.set_grad_enabled(False)
 
+    print("ready to generate...")
     # 6. 생성
     with torch.no_grad():
         outputs = model.generate(
@@ -384,6 +389,8 @@ def generate_rag_response_local(
             repetition_penalty=1.1,
             no_repeat_ngram_size=0,
         )
+
+    print("generation done!")
 
     # 7. 답변 추출
     response = outputs[0][input_ids.shape[-1]:]
@@ -423,7 +430,7 @@ def generate_rag_response_local_old(
     query: str,
     top_k: int = 3,
     gallery_filter: str = None,
-    max_tokens: int = 200,
+    max_tokens: int = 150,
     temperature: float = 0.2,
 ) -> Dict[str, Any]:
 
