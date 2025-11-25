@@ -51,8 +51,8 @@ def agent_chat(n, init_persona, target_persona, topic_num, mode:str, client):
             "topic": init_persona["topic"],
             "mode": mode,
             "Question": QUESTION,
-            init_persona["name"] : init_persona,
-            target_persona["name"]: target_persona,
+            init_persona['name'] : init_persona,
+            target_persona['name']: target_persona,
 
         }
     })
@@ -70,16 +70,14 @@ def agent_chat(n, init_persona, target_persona, topic_num, mode:str, client):
 
         init_query = utt
         turn_data[init_persona["name"]] = utt
-        context += f"{init_persona['name']}: {utt}\n" # context = init_persona
+        context = f"{init_persona["name"]}: {utt}\n" # context = init_persona
         
-        
-
         #target's turn
         utt= generate_one_utterance(target_tokenizer, target_model,target_persona, init_persona, context, target_query, client)
         
         target_query = utt
         turn_data[target_persona["name"]] = utt
-        context += f"{target_persona['name']}: {utt}\n"  # context = target_persona
+        context = f"{target_persona["name"]}: {utt}\n"  # context = target_persona
 
         # save
         history.append(turn_data)

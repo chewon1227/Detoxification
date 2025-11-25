@@ -1,0 +1,5 @@
+base model 
+s5ya/Ko-Llama-3.1-8B-Lexi-Uncensored-V2
+
+detox model
+s5ya/Ko-Llama-3.1-8B-Lexi-Uncensored-V2

@@ -22,7 +22,6 @@ def main():
 
     init_persona = utils.read_json(init_persona_path)
     target_persona = utils.read_json(target_persona_path)
-
     # get database client
     client = rag.database_check()
     

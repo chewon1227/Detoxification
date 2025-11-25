@@ -8,7 +8,7 @@ TRAIN_ROOT = PROJECT_ROOT / "train"
 if str(TRAIN_ROOT) not in sys.path:
     sys.path.append(str(TRAIN_ROOT))
 
-from src.train.chat_prompt import build_converse_prompt  # noqa: E402
+from train.src.train.chat_prompt import build_converse_prompt  # noqa: E402
 
 
 def run_model_generate_chat_utt(tokenizer,
