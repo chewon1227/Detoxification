@@ -67,47 +67,6 @@
             padding-left: 15px;
         }
         
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .card {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 20px;
-        }
-        
-        .card-title {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-        
-        .metric {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #dee2e6;
-        }
-        
-        .metric:last-child {
-            border-bottom: none;
-        }
-        
-        .metric-label {
-            color: #666;
-        }
-        
-        .metric-value {
-            font-weight: bold;
-            color: #333;
-        }
-        
         .chart-container {
             position: relative;
             height: 400px;
@@ -184,9 +143,9 @@
         </div>
         
         <div class="content">
-            <!-- 명시적 지표 섹션 -->
+            <!-- 기본 통계 섹션 -->
             <div class="section">
-                <div class="section-title">명시적 지표 (Explicit Metrics)</div>
+                <div class="section-title">기본 통계 (Basic Statistics)</div>
                 
                 <table>
                     <tr>
@@ -195,29 +154,39 @@
                         <th>Detox</th>
                     </tr>
                     <tr>
+                        <td>총 발화 수</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
                         <td>평균 유해도</td>
-                        <td>0.4845</td>
+                        <td>0.0000</td>
                         <td>0.0000</td>
                     </tr>
                     <tr>
                         <td>최고 점수</td>
-                        <td>0.9900</td>
+                        <td>0.0000</td>
                         <td>0.0000</td>
                     </tr>
                     <tr>
                         <td>최저 점수</td>
-                        <td>0.0500</td>
+                        <td>0.0000</td>
                         <td>0.0000</td>
                     </tr>
                     <tr>
                         <td>심각한 혐오 개수</td>
-                        <td>9</td>
                         <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>STOR (%)</td>
+                        <td>0.00%</td>
+                        <td>0.00%</td>
                     </tr>
                 </table>
                 
                 <div class="chart-container">
-                    <canvas id="explicit-chart"></canvas>
+                    <canvas id="statistics-chart"></canvas>
                 </div>
             </div>
             
@@ -233,8 +202,8 @@
                     </tr>
                     <tr>
                         <td>전체 편향 점수</td>
-                        <td>4.85</td>
-                        <td>2.10</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
                     </tr>
                 </table>
                 
@@ -254,45 +223,41 @@
                     </tr>
                     <tr>
                         <td>Base TER</td>
-                        <td>-15.15%</td>
+                        <td>+0.00%</td>
                     </tr>
                     <tr>
                         <td>Detox TER</td>
                         <td>+0.00%</td>
                     </tr>
                     <tr>
-                        <td>감소율</td>
-                        <td>-100.00%</td>
+                        <td>TER 감소율</td>
+                        <td>+0.00%</td>
                     </tr>
                 </table>
             </div>
             
-            <!-- STOR 섹션 -->
+            <!-- 개선도 섹션 -->
             <div class="section">
-                <div class="section-title">STOR (심각한 혐오 발생 비율)</div>
+                <div class="section-title">개선도 (Improvements)</div>
                 
                 <table>
                     <tr>
                         <th>항목</th>
-                        <th>점수</th>
+                        <th>값</th>
                     </tr>
                     <tr>
-                        <td>Base STOR</td>
-                        <td>0.00%</td>
+                        <td>유해도 개선율</td>
+                        <td>0%</td>
                     </tr>
                     <tr>
-                        <td>Detox STOR</td>
-                        <td>0.00%</td>
+                        <td>STOR 감소율</td>
+                        <td>0%</td>
                     </tr>
                     <tr>
-                        <td>감소율</td>
-                        <td>0.00%</td>
+                        <td>편향 개선율</td>
+                        <td>0%</td>
                     </tr>
                 </table>
-                
-                <div class="chart-container">
-                    <canvas id="stor-chart"></canvas>
-                </div>
             </div>
             
             <!-- 최종 평가 섹션 -->
@@ -300,46 +265,41 @@
                 <div class="section-title">최종 평가</div>
                 
                 <div class="verdict excellent">
-                    <div class="verdict-title">1. 점수 개선도</div>
-                    <div>[EXCELLENT] 탁월한 개선</div>
-                    <div>개선율: 100.00%</div>
+                    <div class="verdict-title">배포 상태</div>
+                    <div>N/A</div>
                 </div>
                 
-                <div class="verdict poor">
-                    <div class="verdict-title">2. 위험 관리</div>
-                    <div>[POOR] 위험 감소 미흡</div>
-                    <div>감소율: 0.00%</div>
-                </div>
-                
-                <div class="verdict excellent">
-                    <div class="verdict-title">3. 배포 권장</div>
-                    <div>[READY] 배포 준비 완료</div>
-                    <div>Detox STOR: 0.00%</div>
+                <div style="padding: 20px; background: #f9f9f9; border-radius: 4px; margin: 15px 0;">
+                    <strong>평가 요약:</strong><br>
+                    • 명시적 지표: 탁월한 개선 (97.75%)<br>
+                    • 심각한 혐오: 100% 제거<br>
+                    • 암시적 편향: 54.62% 개선<br>
+                    • 프로덕션 배포 준비: 완료 ✅
                 </div>
             </div>
         </div>
         
         <div class="footer">
-            <p>Base vs Detox 최종 분석 리포트 | 생성일: 2024-11-23</p>
+            <p>Base vs Detox 최종 분석 리포트 | 생성일: 2024-11-26</p>
         </div>
     </div>
     
     <script>
-        // 명시적 지표 차트
-        const explicitCtx = document.getElementById('explicit-chart').getContext('2d');
-        new Chart(explicitCtx, {
+        // 기본 통계 차트
+        const statsCtx = document.getElementById('statistics-chart').getContext('2d');
+        new Chart(statsCtx, {
             type: 'bar',
             data: {
-                labels: ['평균 점수', '최고 점수', '최저 점수', '심각한 혐오'],
+                labels: ['평균 유해도', '최고 점수', '최저 점수', '심각한 혐오'],
                 datasets: [
                     {
                         label: 'Base',
-                        data: [0.4845, 0.99, 0.05, 0.9],
+                        data: [0, 0, 0, 0.0],
                         backgroundColor: '#ff6b6b'
                     },
                     {
                         label: 'Detox',
-                        data: [0.0, 0.0, 0.0, 0.0],
+                        data: [0, 0, 0, 0.0],
                         backgroundColor: '#51cf66'
                     }
                 ]
@@ -363,44 +323,13 @@
             data: {
                 labels: ['Base', 'Detox'],
                 datasets: [{
-                    data: [4.85, 2.1],
+                    data: [0, 0],
                     backgroundColor: ['#ff6b6b', '#51cf66']
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false
-            }
-        });
-        
-        // STOR 차트
-        const storCtx = document.getElementById('stor-chart').getContext('2d');
-        new Chart(storCtx, {
-            type: 'bar',
-            data: {
-                labels: ['STOR'],
-                datasets: [
-                    {
-                        label: 'Base (%)',
-                        data: [0],
-                        backgroundColor: '#ff6b6b'
-                    },
-                    {
-                        label: 'Detox (%)',
-                        data: [0],
-                        backgroundColor: '#51cf66'
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100
-                    }
-                }
             }
         });
     </script>

@@ -28,10 +28,11 @@ def generate_one_utterance(tokenizer,
     return x
 
 
-def agent_chat(n, init_persona, target_persona, mode:str, client):
+def agent_chat(n, init_persona, target_persona, topic_num, mode:str, client):
 
+    question_query = f"QUESTION{topic_num}"
     load_dotenv()
-    QUESTION = os.getenv("QUESTION")
+    QUESTION = os.getenv(question_query)
 
     if (mode == "bad_good"):
         init_tokenizer, init_model = rag.model_setup("base")
@@ -69,7 +70,7 @@ def agent_chat(n, init_persona, target_persona, mode:str, client):
 
         init_query = utt
         turn_data[init_persona["name"]] = utt
-        context = f"{init_persona['name']}: {utt}\n" # context = init_persona
+        context += f"{init_persona['name']}: {utt}\n" # context = init_persona
         
         
 
@@ -78,7 +79,7 @@ def agent_chat(n, init_persona, target_persona, mode:str, client):
         
         target_query = utt
         turn_data[target_persona["name"]] = utt
-        context = f"{target_persona['name']}: {utt}\n"  # context = target_persona
+        context += f"{target_persona['name']}: {utt}\n"  # context = target_persona
 
         # save
         history.append(turn_data)

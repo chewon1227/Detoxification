@@ -66,11 +66,12 @@ def build_converse_prompt(
         f"아래는 당신의 페르소나에 대한 간략한 설명이다."
         f"[페르소나]\n"
         f"{init_description}\n\n"
+        f"[목표]"
+        f"아래 [상대방 게시글]을 읽고, [참고 텍스트]에 있는 내용 중 **반대 근거**만 선별하여 강력하게 반박하는 댓글을 작성해라.\n\n"
         # f"This is a brief description of {target_name}.\n"
         # f"{target_description}\n\n"
         # f"{target_name} said: \n"
-        f"아래는 디시인사이드에 게시된 게시글이다. 아래는 너의 의견에 반대한다: "
-        f"[게시글] {context.strip()}\n\n"
+        f"[상대방 게시글]\n {context.strip()}\n\n"
         # f"In this case, What will you say to {target_name}?\n"
     )
 

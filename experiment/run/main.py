@@ -14,8 +14,9 @@ def main():
     # input preparation
     n = int(sys.argv[1])
     mode_num = int(sys.argv[2])
-    init_persona_name = sys.argv[3]
-    target_persona_name = sys.argv[4]
+    topic_num = int(sys.argv[3])
+    init_persona_name = sys.argv[4]
+    target_persona_name = sys.argv[5]
     init_persona_path = f"experiment/data/personas/{init_persona_name}.json"
     target_persona_path = f"experiment/data/personas/{target_persona_name}.json"
 
@@ -36,18 +37,18 @@ def main():
 
     # base(toxic) mode
     if (mode_num==0): 
-        base_trajectory = c.agent_chat(n, init_persona, target_persona, mode="base", client = client)
-        base_trajectory_path = f"experiment/result/{mn}/{init_persona['topic']}/base_trajectory_{n}turn_3.json"
+        base_trajectory = c.agent_chat(n, init_persona, target_persona, topic_num, mode="base", client = client)
+        base_trajectory_path = f"experiment/result/{mn}/{init_persona['topic']}/base_trajectory_{n}turn_4.json"
         utils.record_json(base_trajectory, base_trajectory_path)
     # detox mode
     elif (mode_num ==1):
-        detox_trajectory = c.agent_chat(n, init_persona, target_persona, mode = "detox", client = client)
-        detox_trajectory_path = f"experiment/result/{mn}/{init_persona['topic']}/detox_trajectory_{n}turn_3.json"
+        detox_trajectory = c.agent_chat(n, init_persona, target_persona, topic_num, mode = "detox", client = client)
+        detox_trajectory_path = f"experiment/result/{mn}/{init_persona['topic']}/detox_trajectory_{n}turn_4.json"
         utils.record_json(detox_trajectory, detox_trajectory_path)
     # toxic vs detox mode
     elif (mode_num == 2):
-        bad_good_trajectory = c.agent_chat(n, init_persona, target_persona, mode = "bad_good", client = client)
-        bad_good_trajectory_path = f"experiment/result/{mn}/{init_persona['topic']}/bad_good_trajectory_{n}turn_2.json"
+        bad_good_trajectory = c.agent_chat(n, init_persona, target_persona, topic_num, mode = "bad_good", client = client)
+        bad_good_trajectory_path = f"experiment/result/{mn}/{init_persona['topic']}/bad_good_trajectory_{n}turn_4.json"
         utils.record_json(bad_good_trajectory, bad_good_trajectory_path)
 
 if __name__ == "__main__":

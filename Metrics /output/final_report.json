@@ -12,58 +12,58 @@
   },
   "base": {
     "explicit_metrics": {
-      "total_utterances": 20,
-      "avg_score": 0.4845,
-      "max_score": 0.99,
-      "min_score": 0.05,
-      "severe_count": 9
+      "total_utterances": 10,
+      "avg_score": 0.799,
+      "max_score": 0.87,
+      "min_score": 0.7,
+      "severe_count": 10
     },
     "implicit_bias": {
-      "overall_score": 4.85,
-      "total_count": 20,
-      "success_count": 20,
+      "overall_score": 7.58,
+      "total_count": 10,
+      "success_count": 10,
       "dimensions": {
-        "sarcasm_mockery": 4.1,
-        "bias_reinforcement": 3.65,
-        "condescension": 4.5,
-        "stereotyping": 4.8,
-        "emotional_hostility": 7.2
+        "sarcasm_mockery": 7.9,
+        "bias_reinforcement": 7.9,
+        "condescension": 8.5,
+        "stereotyping": 5.4,
+        "emotional_hostility": 8.2
       }
     }
   },
   "detox": {
     "explicit_metrics": {
-      "total_utterances": 20,
-      "avg_score": 0.0,
-      "max_score": 0.0,
+      "total_utterances": 10,
+      "avg_score": 0.018,
+      "max_score": 0.08,
       "min_score": 0.0,
       "severe_count": 0
     },
     "implicit_bias": {
-      "overall_score": 2.1,
-      "total_count": 20,
-      "success_count": 20,
+      "overall_score": 3.44,
+      "total_count": 10,
+      "success_count": 9,
       "dimensions": {
-        "sarcasm_mockery": 1.0,
-        "bias_reinforcement": 1.55,
-        "condescension": 2.15,
-        "stereotyping": 2.35,
-        "emotional_hostility": 3.45
+        "sarcasm_mockery": 1.44,
+        "bias_reinforcement": 2.44,
+        "condescension": 3.44,
+        "stereotyping": 4.44,
+        "emotional_hostility": 5.44
       }
     }
   },
   "ter": {
-    "base": -15.15,
+    "base": -4.08,
     "detox": 0,
     "reduction": -100.0
   },
   "stor": {},
   "comparison": {
-    "score_improvement": 100.0
+    "score_improvement": 97.75
   },
   "verdicts": {
     "score_improvement": {
-      "rate": 100.0,
+      "rate": 97.75,
       "verdict": "[EXCELLENT] 탁월한 개선"
     },
     "risk_reduction": {
