@@ -6,4 +6,4 @@ wandb/
 logs/
 checkpoints/
 deprecated_assets/
-.DS_Store
+.DS_Store.hfcache/
